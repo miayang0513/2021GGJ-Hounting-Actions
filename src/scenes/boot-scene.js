@@ -1,9 +1,9 @@
 import { Scene } from 'phaser'
-
 import tileLight from '../assets/images/tile-light.png'
 import tileDark from '../assets/images/tile-dark.png'
 import tileShadow from '../assets/images/tile-shadow.png'
 import wall from '../assets/images/wall.png'
+
 export default class BootScene extends Scene {
   constructor () {
     super({ key: 'BootScene' })
