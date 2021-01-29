@@ -1,17 +1,17 @@
-/* eslint-disable */
 import { Scene } from 'phaser'
 
+import tile from '../assets/images/tile-1.png'
 export default class BootScene extends Scene {
   constructor () {
     super({ key: 'BootScene' })
-    this.createCompleted = false
   }
   init () {
   }
   preload () {
-	}
+    this.load.image('tile', tile)
+  }
   async create () {
-    this.createCompleted = true
     console.log('boot scene created')
+    this.scene.start('PlayScene')
   }
 }
