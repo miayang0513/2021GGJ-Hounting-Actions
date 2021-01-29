@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import BootScene from './scenes/boot-scene.js'
+import PlayScene from './scenes/play-scene.js'
 
 const game = new Phaser.Game({
 	type: Phaser.AUTO,
@@ -12,7 +13,7 @@ const game = new Phaser.Game({
 	},
 	parent: 'game-container',
 	backgroundColor: '#000000',
-	scene: [BootScene],
+	scene: [BootScene, PlayScene],
 	fps: {
 		target: 60,
 		forceSetTimeOut: true
