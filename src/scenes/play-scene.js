@@ -17,8 +17,9 @@ export default class PlayScene extends Scene {
   }
   async create () {
     console.log('play scene created')
-    this.cameras.main.setZoom(0.7)
 
+    this.cameras.main.setZoom(0.6)
+    const shadow = this.add.image(this.centerX, this.centerY + 900, 'tile-shadow').setOrigin(0.5, 1).setDepth(0.1)
     this.wall = new Wall(this, {
       x: this.centerX,
       y: this.centerY + 295,
