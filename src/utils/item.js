@@ -20,6 +20,18 @@ export default class Item extends Phaser.GameObjects.Image {
     } else if (this.place === 'wall') {
       this.placeItemOnWall(config)
     }
+
+    // indicator
+    this.indicator = scene.add.image(this.x, this.y - this.height,'itemIndicator').setOrigin(0.5, 1).setDepth(this.depth).setVisible(false)
+    this.tween = this.scene.tweens.add({
+      paused: true,
+      targets: this.indicator,
+      ease: 'Power2',
+      y: '+=24',
+      duration: 1000,
+      repeat: -1,
+      yoyo: true
+    })
   }
   placeItemOnGround ({ column, row, floor }) {
     const coordinateX = column - 1
@@ -43,6 +55,16 @@ export default class Item extends Phaser.GameObjects.Image {
   placeItemOnWall ({ depth, x, y }) {
     this.setDepth(depth)
     this.setPosition(x, y)
+  }
+
+  showIndicator(bool) {
+    if (bool) {
+      this.indicator.setVisible(true)
+      this.tween.play()
+    } else {
+      this.indicator.setVisible(false)
+      this.tween.pause()
+    }
   }
 
 }
