@@ -1,0 +1,40 @@
+[
+  {
+    "id": "pliers",
+    "availableItems": [
+      {
+        "in": "rope",
+        "out": "short-reop"
+      },
+      {
+        "in": "necklace",
+        "out": "gem"
+      },
+      {
+        "in": "umbrella",
+        "out": "umbrella-stand"
+      },
+      {
+        "in": "wine-bottle",
+        "out": "broken-wine-bottle"
+      }
+    ]
+  },
+  {
+    "id": "table",
+    "availableItems": [
+      {
+        "in": "rope",
+        "out": "repo-ladder"
+      },
+      {
+        "in": "umbrella",
+        "out": "umbrella-stand"
+      },
+      {
+        "in": "wine-bottle",
+        "out": null
+      }
+    ]
+  }
+]
