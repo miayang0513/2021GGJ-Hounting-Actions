@@ -2,7 +2,6 @@ import Phaser from 'phaser'
 import BootScene from './scenes/boot-scene.js'
 import PlayScene from './scenes/play-scene.js'
 import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin'
-import MouseWheelToUpDownPlugin from 'phaser3-rex-plugins/plugins/mousewheeltoupdown-plugin.js'
 
 
 const game = new Phaser.Game({
@@ -23,12 +22,7 @@ const game = new Phaser.Game({
         key: 'rexGestures',
         plugin: GesturesPlugin,
         mapping: 'rexGestures'
-      },
-      {
-        key: 'rexMouseWheelToUpDown',
-        plugin: MouseWheelToUpDownPlugin,
-        start: true
-      },
+      }
     ]
   },
   fps: {
