@@ -23,14 +23,15 @@ export default class PlayScene extends Scene {
 
   init () {
     this.tileGroup = this.add.group()
-    const PlayerSettings = { HP: 4 }
-    this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000', PlayerSettings)
-    this.Pathfinding = new PathFinding(this.Character_instance)
+    // const PlayerSettings = { HP: 4 }
+    // this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000', PlayerSettings)
+    // this.Pathfinding = new PathFinding(this.Character_instance)
   }
   preload () {
   }
   async create () {
     console.log('play scene created')
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     store.dispatch('showNotification', 'GET a broken bottle')
@@ -41,6 +42,10 @@ export default class PlayScene extends Scene {
 >>>>>>> a8f47ac (haracter walk tile by tile and calculate path.)
     this.Character_instance.CharacterEvent.emit('moveCharacter_bytile', this.tileGroup.getChildren()[0], true)
 >>>>>>> 585106d (Player can move by tile with tween. (teleport))
+=======
+    // this.Pathfinding.init(this.tileGroup.getChildren())
+    // this.Character_instance.CharacterEvent.emit('moveCharacter_bytile', this.tileGroup.getChildren()[0], true)
+>>>>>>> 42122d8 (temporarly comment)
     this.cameras.main.setZoom(0.6)
     const shadow = this.add.image(this.centerX, this.centerY + 900, 'tile-shadow').setOrigin(0.5, 1).setDepth(0.1)
     this.wall = new Wall(this, {
@@ -64,7 +69,7 @@ export default class PlayScene extends Scene {
         camera.scrollY -= drag1Vector.y / camera.zoom
       })
   }
-  update () {
-    this.Pathfinding.Finder.calculate()
-  }
+  // update () {
+  //   this.Pathfinding.Finder.calculate()
+  // }
 }

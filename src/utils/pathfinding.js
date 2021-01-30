@@ -1,6 +1,4 @@
-import Phaser from 'phaser'
 import EasyStar from 'easystarjs'
-import Tile from './tile';
 
 export default class PathFinding {
 
