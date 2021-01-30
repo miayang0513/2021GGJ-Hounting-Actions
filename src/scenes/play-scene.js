@@ -46,6 +46,9 @@ export default class PlayScene extends Scene {
     this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
     this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000)
     this.createAnim('openExitAnim', 'exit', 'openExit', 18)
+    this.fakeDoor = new Item(this, 'fakeDoor', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)
+    this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1)
+
     this.mountDragEvent()
 
     // ↓這個方法可以直接設定玩家的樓層↓
