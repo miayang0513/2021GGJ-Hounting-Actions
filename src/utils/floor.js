@@ -84,7 +84,7 @@ export default class Floor extends Phaser.GameObjects.Group {
         }
         const tile = new Tile(this.scene, options).setOrigin(0.5, 1)
         if (x < 7 && y < 3 && this.floor === 1) {
-          tile.setTint(0X1F3B4A)
+          tile.setTint(0X53788C)
         }
         this.add(tile)
       }

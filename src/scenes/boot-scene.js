@@ -8,6 +8,12 @@ import character_png from '../assets/animations/senior-walk.png'
 import character_an from '../assets/animations/senior-walk.json'
 import pliers from '../assets/images/pliers.png'
 import window from '../assets/images/window.png'
+import groove from '../assets/images/groove.png'
+import grooveDiamond from '../assets/images/groove-diamond.png'
+import curtain from '../assets/images/curtain.png'
+import pipe from '../assets/images/pipe.png'
+import table from '../assets/images/table.png'
+import nail from '../assets/images/nail.png'
 
 export default class BootScene extends Scene {
   constructor () {
@@ -24,6 +30,12 @@ export default class BootScene extends Scene {
 
     this.load.image('pliers', pliers)
     this.load.image('window', window)
+    this.load.image('groove', groove)
+    this.load.image('groove', grooveDiamond)
+    this.load.image('curtain', curtain)
+    this.load.image('pipe', pipe)
+    this.load.image('table', table)
+    this.load.image('nail', nail)
   }
   async create () {
     console.log('boot scene created')

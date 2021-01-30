@@ -36,8 +36,15 @@ export default class PlayScene extends Scene {
 
     this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 }, { acceptable: true, pathfinder: this.Pathfinding, playerevents: this.Character_instance.CharacterEvent })
     this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 }, { acceptable: true, pathfinder: this.Pathfinding, playerevents: this.Character_instance.CharacterEvent })
-    this.item1 = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
-    this.item2 = new Item(this, 'window', 'wall', { depth: 10000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
+    // item setting
+    this.pliers = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
+    this.window = new Item(this, 'window', 'wall', { depth: 1000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
+    this.groove = new Item(this, 'groove', 'wall', { depth: 1000, x: this.centerX + 192 * 2.25, y: this.centerY - 192 }).setOrigin(0.5, 1)
+    this.curtain = new Item(this, 'curtain', 'wall', { depth: 1000, x: this.centerX - 192 * 0.8, y: this.centerY - 192 * 1.2 }).setOrigin(0.5, 1)
+    this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
+    this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3}).setOrigin(0.5, 1)
+    this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
+
     this.mountDragEvent()
 
     this.Pathfinding.init(this.firstFloor.getChildren())

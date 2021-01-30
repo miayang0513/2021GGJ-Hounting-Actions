@@ -31,7 +31,7 @@ export default class Item extends Phaser.GameObjects.Image {
     const tx = (coordinateX - coordinateY) * tileWidthHalf
     const ty = (coordinateX + coordinateY) * tileHeightHalf
     const x = this.centerX + tx
-    const y = this.centerY + ty - (this.height / 2) - tileHeight / 2 - (floor - 1) * tileHeight * 2
+    const y = this.centerY + ty - (floor - 1) * tileHeight * 2
     const depth = this.centerY + ty
 
     const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === coordinateX && tile.coordinateY === coordinateY)
