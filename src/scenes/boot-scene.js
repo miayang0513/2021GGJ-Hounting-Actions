@@ -2,6 +2,7 @@ import { Scene } from 'phaser'
 import tileLight from '../assets/images/tile-light.png'
 import tileDark from '../assets/images/tile-dark.png'
 import tileShadow from '../assets/images/tile-shadow.png'
+import tileEmpty from '../assets/images/tile-empty.png'
 import wall from '../assets/images/wall.png'
 
 import character_png from '../assets/animations/senior-walk.png'
@@ -33,6 +34,7 @@ export default class BootScene extends Scene {
     this.load.image('tile-light', tileLight)
     this.load.image('tile-dark', tileDark)
     this.load.image('tile-shadow', tileShadow)
+    this.load.image('tile-empty', tileEmpty)
     this.load.image('wall', wall)
     this.load.atlas('character_atlas', character_png, character_an)
     this.load.atlas('openExit', openExitPng, openExitJson)

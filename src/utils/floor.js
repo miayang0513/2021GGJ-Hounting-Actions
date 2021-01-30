@@ -19,6 +19,7 @@ class Tile extends Phaser.GameObjects.Image {
       96, 41,
       0, 89
     ])
+
     this.setInteractive(this._interactArea, Phaser.Geom.Polygon.Contains)
       .on('pointerdown', () => {
         console.log(`${this.floor}樓 (${this.coordinateX}, ${this.coordinateY})`)
@@ -42,6 +43,19 @@ class Tile extends Phaser.GameObjects.Image {
     }
   }
 
+  setInvisible(){
+    this.setTexture('tile-empty')
+  }
+
+  setInteractable(bool){
+    if(bool){
+      this.setDepth(10000)
+    }
+    else{
+      this.setDepth(-10000)
+    }
+  }
+
   setDot() {
     this.dot.setVisible(true)
     this.borderRec.setVisible(false)
@@ -55,6 +69,23 @@ class Tile extends Phaser.GameObjects.Image {
   clearIndicator() {
     this.dot.setVisible(false)
     this.borderRec.setVisible(false)
+  }
+
+  copy(){
+    const options = {
+      x: this.x,
+      y: this.y,
+      texture: this.texture,
+      depth: this.depth+10,
+      coordinateX: this.coordinateX,
+      coordinateY: this.coordinateY,
+      floor: this.floor,
+      acceptable: this.acceptable,
+      playerevents: this.playerevents,
+      pathfinder: this.pathfinder
+    }
+    const tile = new Tile(this.scene, options).setOrigin(0.5, 1)
+    return tile
   }
 
 }
@@ -78,6 +109,18 @@ export default class Floor extends Phaser.GameObjects.Group {
     this.pathfinder = new PathFinding(character)
 
     this.placeTiles()
+
+    this.TransparentTiles = []
+  }
+  setInteractable(bool){
+    for (let index = 0; index < this.getChildren().length; index++) {
+      const element = this.getChildren()[index];
+      // element.setInteractable(bool)
+    }
+    for (let index = 0; index < this.TransparentTiles.length; index++) {
+      const element = this.TransparentTiles[index];
+      element.setInteractable(bool)
+    }
   }
   placeTiles () {
     const tileWidth = 192
@@ -120,5 +163,12 @@ export default class Floor extends Phaser.GameObjects.Group {
       }
     }
     return true
+  }
+  addTiles(addTile = [{ tile, x, y, floor, callback }]){
+    for (let index = 0; index < addTile.length; index++) {
+      const element = addTile[index]
+      this.TransparentTiles.push(element.tile)
+    }
+    this.pathfinder.addTile(addTile)
   }
 }

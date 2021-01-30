@@ -13,12 +13,12 @@ export default class PlayScene extends Scene {
     this.secondFloor = null
     this.wall = null
   }
-  init () {
+  init() {
     this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000')
   }
   preload() {
   }
-  async create () {
+  async create() {
     store.dispatch('showNotification', { message: 'GAME START' })
     this.cameras.main.setZoom(0.7)
     const shadow = this.add.image(this.centerX, this.centerY + 900, 'tile-shadow').setOrigin(0.5, 1).setDepth(0.1)
@@ -49,7 +49,30 @@ export default class PlayScene extends Scene {
 
     // ↓這個方法可以直接設定玩家的樓層↓
     this.Character_instance.setFloor(this.firstFloor, 40, true)
+
+    // ↓把會死的第二層設定出來↓
+    this.setFallRange()
   }
+
+  setFallRange() {
+
+    var searchTiles = this.firstFloor.getChildren()
+    var tTiles = [searchTiles[7],searchTiles[16],searchTiles[25]]
+    for (let index = 27; index < 35; index++) { tTiles.push(searchTiles[index]) }
+    var addTiles = []
+    for (let i = 0; i < tTiles.length; i++) {
+      const element = tTiles[i];
+      var newInstance = element.copy()
+      newInstance.setInvisible()
+      newInstance.acceptable = true
+      newInstance.pathfinder = this.secondFloor.pathfinder
+      addTiles.push({ tile: newInstance,x: newInstance.coordinateX,y:newInstance.coordinateY, floor: this.secondFloor, callback: () => { console.log("YOU ARE DIE!!!!!") } })
+    }
+
+    this.secondFloor.addTiles(addTiles)
+    this.secondFloor.setInteractable(false)
+  }
+
   mountDragEvent() {
     const pinch = this.rexGestures.add.pinch()
     const camera = this.cameras.main
@@ -60,7 +83,7 @@ export default class PlayScene extends Scene {
         camera.scrollY -= drag1Vector.y / camera.zoom
       })
   }
-  update () {
+  update() {
     if (this.Character_instance.floor) {
       this.Character_instance.floor.pathfinder.Finder.calculate()
     }
@@ -69,7 +92,7 @@ export default class PlayScene extends Scene {
       this.Character_instance.setFloor(this.secondFloor, 5, false)
     }
   }
-  createAnim (key, name, atlas, endFrame) {
+  createAnim(key, name, atlas, endFrame) {
     const config = {
       key: key,
       frames: this.anims.generateFrameNames(atlas, {
