@@ -104,6 +104,16 @@ body {
     &[data-status="empty"] {
       opacity: 0.4;
     }
+    position: relative;
+    &::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: -40px;
+      left: 0px;
+      font-size: 20px;
+      line-height: 20px;
+      white-space: nowrap;
+    }
   }
 }
 

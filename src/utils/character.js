@@ -1,5 +1,4 @@
 import Phaser from 'phaser'
-import itemJson from '../assets/json/item.json'
 import store from '../store'
 
 export default class Character extends Phaser.GameObjects.Sprite {
@@ -56,8 +55,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
             character.anims.play('idle')
             character.state = 'idle'
             if (targetTile.hasOwnProperty('item')) {
-              const item = itemJson.find(item => item.id === targetTile.item.id)
-              store.dispatch('makeItemJitter', item.availableItems)
+              store.dispatch('makeItemJitter', targetTile.item.id)
             }
 
             this.floor.pathfinder.ClearPathHint()

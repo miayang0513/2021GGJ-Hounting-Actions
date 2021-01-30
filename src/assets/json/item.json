@@ -1,40 +1,102 @@
-[
-  {
-    "id": "pliers",
-    "availableItems": [
-      {
-        "in": "rope",
-        "out": "short-reop"
-      },
-      {
-        "in": "necklace",
-        "out": "gem"
-      },
-      {
-        "in": "umbrella",
-        "out": "umbrella-stand"
-      },
-      {
-        "in": "wine-bottle",
-        "out": "broken-wine-bottle"
-      }
-    ]
-  },
-  {
-    "id": "table",
-    "availableItems": [
-      {
-        "in": "rope",
-        "out": "repo-ladder"
-      },
-      {
-        "in": "umbrella",
-        "out": "umbrella-stand"
-      },
-      {
-        "in": "wine-bottle",
-        "out": null
-      }
-    ]
-  }
-]
+{
+  "fixed": [
+    {
+      "id": "pliers",
+      "name": "pliers",
+      "availableItems": [
+        {
+          "in": "rope",
+          "out": "short-rope",
+          "message": "GET a short rope"
+        },
+        {
+          "in": "necklace",
+          "out": "gem",
+          "message": ""
+        },
+        {
+          "in": "umbrella",
+          "out": "umbrella-stand",
+          "message": ""
+        },
+        {
+          "in": "wine-bottle",
+          "out": "broken-wine-bottle",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "id": "table",
+      "name": "table",
+      "availableItems": [
+        {
+          "in": "rope",
+          "out": "repo-ladder",
+          "message": ""
+        },
+        {
+          "in": "umbrella",
+          "out": "umbrella-stand",
+          "message": ""
+        },
+        {
+          "in": "wine-bottle",
+          "out": "clean-table",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "id": "clean-table",
+      "name": "clean table",
+      "availableItems": []
+    }
+  ],
+  "portable": [
+    {
+      "id": "rope",
+      "name": "rope"
+    },
+    {
+      "id": "short-rope",
+      "name": "short rope"
+    },
+    {
+      "id": "ladder",
+      "name": "ladder"
+    },
+    {
+      "id": "necklace",
+      "name": "necklace"
+    },
+    {
+      "id": "wine-bottle",
+      "name": "wine bottle"
+    },
+    {
+      "id": "broken-wine-bottle",
+      "name": "broken wine bottle"
+    },
+    {
+      "id": "clean-gem",
+      "name": "clean gem"
+    },
+    {
+      "id": "gem",
+      "name": "gem"
+    },
+    {
+      "id": "umbrella",
+      "name": "umbrella"
+    },
+    {
+      "id": "umbrella-stand",
+      "name": "umbrella stand"
+    },
+    {
+      "id": "umbrella-cloth",
+      "name": "umbrella cloth"
+    }
+  ]
+}
