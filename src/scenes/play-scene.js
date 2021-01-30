@@ -36,10 +36,6 @@ export default class PlayScene extends Scene {
     var firstFloor_collider = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
     this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 }, { colliders: firstFloor_collider, pathfinder: this.Pathfinding, character: this.Character_instance })
     this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 }, { acceptable: [], pathfinder: this.Pathfinding, character: this.Character_instance })
-<<<<<<< HEAD
-
-=======
->>>>>>> 170716c (fix: I forgot save :()
     // item setting
     this.pliers = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
     this.window = new Item(this, 'window', 'wall', { depth: 1000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
@@ -50,12 +46,9 @@ export default class PlayScene extends Scene {
     this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
     this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37 , 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
     this.createAnim('openExitAnim', 'exit', 'openExit', 18)
-<<<<<<< HEAD
     this.fakeDoor = new Item(this, 'fakeDoor', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)
     this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1).setVisible(false)
 
-=======
->>>>>>> 170716c (fix: I forgot save :()
     this.mountDragEvent()
 
     // ↓這個方法可以直接設定玩家的樓層↓
