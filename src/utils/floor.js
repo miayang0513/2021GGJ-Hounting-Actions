@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 class Tile extends Phaser.GameObjects.Image {
-  constructor(scene, { x, y, texture, depth, coordinateX, coordinateY, floor, acceptable, playerevents, pathfinder }) {
+  constructor (scene, { x, y, texture, depth, coordinateX, coordinateY, floor, acceptable, playerevents, pathfinder }) {
     super(scene, x, y, texture)
     scene.add.existing(this)
     this.pathselecting = false
@@ -32,22 +32,22 @@ class Tile extends Phaser.GameObjects.Image {
     // })
   }
 
-  CheckPosition(playerevents = this.playerevents) {
+  CheckPosition (playerevents = this.playerevents) {
     if (this.pathselecting == false) {
       this.pathselecting = true
       this.pathfinder.Find(this, function () { })
       return
     }
     else {
-      this.pathfinder.Find(this, function (result) {
-        playerevents.emit('moveCharacter_bypath', result)
+      this.pathfinder.Find(this, (tilePath) => {
+        playerevents.emit('moveCharacter_bypath', { tilePath, targetTile: this })
       })
     }
   }
 }
 
 export default class Floor extends Phaser.GameObjects.Group {
-  constructor(scene, { column, row, floor }, { acceptable, playerevents, pathfinder }) {
+  constructor (scene, { column, row, floor }, { acceptable, playerevents, pathfinder }) {
     super(scene)
     this.scene = scene
     this.centerX = screen.width / 2
@@ -60,7 +60,7 @@ export default class Floor extends Phaser.GameObjects.Group {
     this.pathfinder = pathfinder
     this.placeTiles()
   }
-  placeTiles() {
+  placeTiles () {
     const tileWidth = 192
     const tileHeight = 96
     const tileWidthHalf = tileWidth / 2
