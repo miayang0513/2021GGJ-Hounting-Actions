@@ -1,40 +1,44 @@
 import { Scene } from 'phaser'
-import Tile from '../utils/tile'
+import Floor from '../utils/floor'
+import Wall from '../utils/wall'
 
 export default class PlayScene extends Scene {
   constructor () {
     super({ key: 'PlayScene' })
+    this.centerX = screen.width / 2
+    this.centerY = screen.height / 2
+    this.firstFloor = null
+    this.secondFloor = null
+    this.wall = null
   }
   init () {
-    this.tileGroup = this.add.group()
   }
   preload () {
   }
   async create () {
-    this.placeTiles(10)
     console.log('play scene created')
 
-  }
-  placeTiles (scale) {
-    const tileWidth = 192
-    const tileHeight = 96
-    const tileWidthHalf = tileWidth / 2
-    const tileHeightHalf = tileHeight / 2
-    let centerX = screen.width / 2
-    let centerY = screen.height / 2
+    this.cameras.main.setZoom(0.6)
+    const shadow = this.add.image(this.centerX, this.centerY + 900, 'tile-shadow').setOrigin(0.5, 1).setDepth(0.1)
+    this.wall = new Wall(this, {
+      x: this.centerX,
+      y: this.centerY + 295,
+      texture: 'wall',
+      depth: 0
+    }).setOrigin(0.5, 1)
 
-    for (let y = 0; y < scale; y++) {
-      for (let x = 0; x < scale; x++) {
-        let tx = (x - y) * tileWidthHalf
-        let ty = (x + y) * tileHeightHalf
-        const options = {
-          depth: centerY + ty,
-          coordinateX: x,
-          coordinateY: y
-        }
-        const tile = new Tile(this, centerX + tx, centerY + ty, 'tile', options).setOrigin(0.5, 1)
-        this.tileGroup.add(tile)
-      }
-    }
+    this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 })
+    this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 })
+    this.mountDragEvent()
+  }
+  mountDragEvent () {
+    const pinch = this.rexGestures.add.pinch()
+    const camera = this.cameras.main
+    pinch
+      .on('drag1', function (pinch) {
+        const drag1Vector = pinch.drag1Vector
+        camera.scrollX -= drag1Vector.x / camera.zoom
+        camera.scrollY -= drag1Vector.y / camera.zoom
+      })
   }
 }
