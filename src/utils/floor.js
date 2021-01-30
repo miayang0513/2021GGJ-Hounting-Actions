@@ -24,6 +24,9 @@ class Tile extends Phaser.GameObjects.Image {
         console.log(`${this.floor}樓 (${this.coordinateX}, ${this.coordinateY})`)
         this.CheckPosition()
       })
+
+    this.dot = scene.add.image(this.x, this.y - 100, 'dot').setDepth(this.depth).setVisible(false)
+    this.borderRec = scene.add.image(this.x, this.y - 112, 'borderRec').setDepth(this.depth).setVisible(false)
   }
 
   CheckPosition (playerevents = this.playerevents) {
@@ -38,6 +41,22 @@ class Tile extends Phaser.GameObjects.Image {
       })
     }
   }
+
+  setDot() {
+    this.dot.setVisible(true)
+    this.borderRec.setVisible(false)
+  }
+
+  setBorderRec() {
+    this.dot.setVisible(false)
+    this.borderRec.setVisible(true)
+  }
+  
+  clearIndicator() {
+    this.dot.setVisible(false)
+    this.borderRec.setVisible(false)
+  }
+
 }
 
 export default class Floor extends Phaser.GameObjects.Group {

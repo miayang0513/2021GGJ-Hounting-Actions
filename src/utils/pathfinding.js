@@ -46,7 +46,7 @@ export default class PathFinding {
     ClearPathHint(tiles = this.tiles) {
         for (let t = 0; t < tiles.length; t++) {
             var element = tiles[t]
-            element.clearTint()
+            element.clearIndicator()
         }
     }
 
@@ -60,13 +60,19 @@ export default class PathFinding {
                 const tilePath = []
                 for (let p = 0; p < path.length; p++) {
                     const element = path[p]
+                    const lastElement = path[p-1]
                     const tile = tiles.find(t => t.coordinateX == element.x && t.coordinateY == element.y)
-                    if (p === path.length - 1 && tile.hasOwnProperty('item')) {
-                        continue
+                    if (p === path.length - 1) {
+                        if (tile.hasOwnProperty('item')) {
+                            continue
+                        }
+                    } else {
+                        // grid on middle path
+                        tile.setDot()
                     }
-                    tile.setTint(0xff0000)
                     tilePath[p] = tile
                 }
+                tilePath[tilePath.length-1].setBorderRec()
                 comfirm(tilePath)
             })
     }

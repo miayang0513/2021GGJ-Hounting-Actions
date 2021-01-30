@@ -55,7 +55,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
         yoyo: false,
         onStart: function (tween, targets, depth, character) { character.depth = depth + 50 },
         onStartParams: [tilePath[i].depth, this],
-        onComplete: function (tween, targets, character) {
+        onComplete: (tween, targets, character) => {
           if (i === tilePath.length - 1) {
             character.anims.play('idle')
             character.state = 'idle'
@@ -63,6 +63,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
               const item = itemJson.find(item => item.id === targetTile.item.id)
               store.dispatch('makeItemJitter', item.availableItems)
             }
+
+            this.floor.pathfinder.ClearPathHint()
           }
         },
         onCompleteParams: [this]

@@ -18,6 +18,10 @@ import pipe from '../assets/images/pipe.png'
 import table from '../assets/images/table.png'
 import nail from '../assets/images/nail.png'
 import rope from '../assets/images/rope.png'
+import faceDoor from '../assets/images/fake-door.png'
+import reflection from '../assets/images/reflection.png'
+import dot from '../assets/images/dot.png'
+import borderRec from '../assets/images/border-rec.png'
 
 export default class BootScene extends Scene {
   constructor () {
@@ -42,6 +46,10 @@ export default class BootScene extends Scene {
     this.load.image('table', table)
     this.load.image('nail', nail)
     this.load.image('rope', rope)
+    this.load.image('fakeDoor', faceDoor)
+    this.load.image('reflection', reflection)
+    this.load.image('dot', dot)
+    this.load.image('borderRec', borderRec)
   }
   async create () {
     console.log('boot scene created')
