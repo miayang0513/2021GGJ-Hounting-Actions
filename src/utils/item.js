@@ -22,15 +22,20 @@ export default class Item extends Phaser.GameObjects.Image {
     }
   }
   placeItemOnGround ({ column, row, floor }) {
+    const coordinateX = column - 1
+    const coordinateY = row - 1
     const tileWidth = 192
     const tileHeight = 96
     const tileWidthHalf = tileWidth / 2
     const tileHeightHalf = tileHeight / 2
-    const tx = ((column - 1) - (row - 1)) * tileWidthHalf
-    const ty = ((column - 1) + (row - 1)) * tileHeightHalf
+    const tx = (coordinateX - coordinateY) * tileWidthHalf
+    const ty = (coordinateX + coordinateY) * tileHeightHalf
     const x = this.centerX + tx
     const y = this.centerY + ty - (this.height / 2) - tileHeight / 2 - (floor - 1) * tileHeight * 2
     const depth = this.centerY + ty
+
+    const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === coordinateX && tile.coordinateY === coordinateY)
+    tile.item = this
 
     this.setDepth(depth)
     this.setPosition(x, y)

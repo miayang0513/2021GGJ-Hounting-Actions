@@ -2,14 +2,14 @@ import EasyStar from 'easystarjs'
 
 export default class PathFinding {
 
-    constructor(Player) {
+    constructor (Player) {
         this.Finder = new EasyStar.js()
         this.Player = Player
-        this.tiles = [];
+        this.tiles = []
     }
 
-    init(tiles) {
-        this.tiles = tiles;
+    init (tiles) {
+        this.tiles = tiles
         var GridRight = 0
         var GridBottom = 0
         for (let i = 0; i < tiles.length; i++) {
@@ -38,7 +38,7 @@ export default class PathFinding {
         this.Finder.setAcceptableTiles([0])
     }
 
-    Find(Tile,comfirm, tiles = this.tiles) {
+    Find (Tile, comfirm, tiles = this.tiles) {
         for (let t = 0; t < tiles.length; t++) {
             var element = tiles[t]
             element.clearTint()
@@ -46,15 +46,17 @@ export default class PathFinding {
         console.log(this.Player.coordinateX + '/' + this.Player.coordinateY + '/' + Tile.coordinateX + '/' + Tile.coordinateY)
         this.Finder.findPath(this.Player.coordinateX, this.Player.coordinateY, Tile.coordinateX, Tile.coordinateY,
             function (path) {
-                var TilePath = []
-                TilePath.length = path.length
+                const tilePath = []
                 for (let p = 0; p < path.length; p++) {
                     const element = path[p]
-                    var tTiles = tiles.find(t => t.coordinateX == element.x && t.coordinateY == element.y)
-                    tTiles.setTint(0xff0000)
-                    TilePath[p] = tTiles
+                    const tile = tiles.find(t => t.coordinateX == element.x && t.coordinateY == element.y)
+                    if (p === path.length - 1 && tile.hasOwnProperty('item')) {
+                        continue
+                    }
+                    tile.setTint(0xff0000)
+                    tilePath[p] = tile
                 }
-                comfirm(TilePath)
+                comfirm(tilePath)
             })
     }
 }
