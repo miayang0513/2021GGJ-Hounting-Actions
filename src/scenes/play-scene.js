@@ -1,5 +1,6 @@
 import { Scene } from 'phaser'
 import Tile from '../utils/tile'
+import Wall from '../utils/wall'
 
 export default class PlayScene extends Scene {
   constructor () {
@@ -7,15 +8,24 @@ export default class PlayScene extends Scene {
     this.centerX = screen.width / 2
     this.centerY = screen.height / 2
     this.tileGroup = null
+    this.wall = null
   }
   init () {
   }
   preload () {
   }
   async create () {
-    this.mountDragEvent()
-    this.placeTiles(9)
     console.log('play scene created')
+
+    this.wall = new Wall(this, {
+      x: this.centerX,
+      y: this.centerY + 295,
+      texture: 'wall',
+      depth: 0
+    }).setOrigin(0.5, 1)
+
+    this.placeTiles(9)
+    this.mountDragEvent()
   }
   mountDragEvent () {
     const pinch = this.rexGestures.add.pinch()
