@@ -1,7 +1,4 @@
 import Phaser from 'phaser'
-import PlayScene from '../scenes/play-scene'
-import PathFinding from './pathfinding'
-
 class Tile extends Phaser.GameObjects.Image {
   constructor(scene, { x, y, texture, depth, coordinateX, coordinateY, floor, acceptable, playerevents, pathfinder }) {
     super(scene, x, y, texture)
@@ -32,7 +29,7 @@ class Tile extends Phaser.GameObjects.Image {
     // this.scene.input.on('pointerout', function (event, gameObjects) {
     //   this.pathselecting = false
     //   gameObjects[0].clearTint() //FIXME: 當被選中時顏色會被清除
-    // }
+    // })
   }
 
   CheckPosition(playerevents = this.playerevents) {
