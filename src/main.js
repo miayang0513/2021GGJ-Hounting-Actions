@@ -37,4 +37,4 @@ const game = new Phaser.Game({
   }
 })
 
-console.log('Hello World')
+export default game

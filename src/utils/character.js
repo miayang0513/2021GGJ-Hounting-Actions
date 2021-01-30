@@ -10,7 +10,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
     scene.add.existing(this)
 
-    this.HP = options.HP //HP
     this.coordinateX = 0
     this.coordinateY = 0
     this.state = 'idle'
@@ -20,11 +19,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.CharacterEvent = new Phaser.Events.EventEmitter()
     this.CharacterEvent.on('moveCharacter_bytile', this._move_bytile, this)
     this.CharacterEvent.on('moveCharacter_bypath', this._move_path, this)
-
-    this.setInteractive(this._interactArea, Phaser.Geom.Polygon.Contains)
-      .on('pointerdown', () => {
-        console.log('CharacterHp:' + this.HP)
-      })
   }
   setFloor (Floor, Index, instant = false) {
     if (this.floor) this.floor.pathfinder.ClearPathHint()
@@ -35,8 +29,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
 
   _move_path ({ tilePath, targetTile }) {
-    store.dispatch('cancelItemJitter')
     this.state = 'walking'
+    store.dispatch('cancelItemJitter')
     var _tweens = []
     _tweens.length = tilePath.length
     for (let i = 0; i < tilePath.length; i++) {
@@ -56,6 +50,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
         onStart: function (tween, targets, depth, character) { character.depth = depth + 50 },
         onStartParams: [tilePath[i].depth, this],
         onComplete: (tween, targets, character) => {
+          console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
+          store.dispatch('walk')
           if (i === tilePath.length - 1) {
             character.anims.play('idle')
             character.state = 'idle'
@@ -73,7 +69,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
     }
     this.anims.play('walk')
     this.scene.tweens.timeline({ tweens: _tweens })
-    this.TakeAction(tilePath.length)
   }
 
   _move_bytile (tile, instant) {
@@ -106,17 +101,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
       onComplete: function (tween, targets, anims) { anims.play('idle') },
       onCompleteParams: [this.anims]
     })
-    this.TakeAction()
-  }
-
-  TakeAction (steps) {
-    if (this.HP > 0) {
-      this.HP -= steps
-    }
-    else {
-      this.HP = 0
-      //TODO: Call GameOver
-    }
   }
 
   InitAnimConfig (an_init_texture) {

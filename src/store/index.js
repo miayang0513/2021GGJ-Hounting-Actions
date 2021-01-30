@@ -1,15 +1,18 @@
 import Store from 'beedle'
+import game from '../main'
 
 const actions = {
-  showNotification (context, message) {
+  showNotification (context, { message, callback = null }) {
     const notificationElement = document.createElement('div')
     notificationElement.classList.add('notification')
     notificationElement.innerHTML = message
     notificationElement.addEventListener('animationend', () => {
       notificationElement.remove()
+      callback?.()
     })
     notificationElement.addEventListener('click', () => {
       notificationElement.remove()
+      callback?.()
     })
     document.querySelector('body')?.prepend(notificationElement)
   },
@@ -20,6 +23,9 @@ const actions = {
       }
       return availableItems.map(item => item.in).includes(itemId) ? 'available' : 'exist'
     })
+    if (!statusList.some(status => status === 'available')) {
+      return context.dispatch('showNotification', 'NO SUITABLE ITEMS')
+    }
     context.dispatch('setBaggageStatus', {
       statusList,
       clickEvent: (index) => {
@@ -39,6 +45,23 @@ const actions = {
       element.dataset.status = statusList[i]
     }
   },
+  walk (context) {
+    context.state.stamina -= 1
+    document.querySelector('.role-status__stamina').innerHTML = `STAMINA: ${context.state.stamina}`
+    if (context.state.stamina === 0) {
+      context.dispatch('gameOver')
+    }
+  },
+  gameOver (context) {
+    const playScene = game.scene.keys['PlayScene']
+    playScene.scene.pause()
+    context.dispatch('showNotification', {
+      message: 'YOU FAILED',
+      callback: () => {
+        playScene.scene.restart()
+      }
+    })
+  },
   useItem (context, id) {
     console.log('use item', id)
   }
@@ -48,7 +71,7 @@ const mutations = {}
 
 const initialState = {
   name: 'SNOW',
-  stamina: 30,
+  stamina: 10,
   items: ['rope', 'necklace', 'umbrella', 'wine-bottle'],
 }
 
