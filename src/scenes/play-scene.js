@@ -1,7 +1,11 @@
 import { Scene } from 'phaser'
 import Floor from '../utils/floor'
 import Wall from '../utils/wall'
+<<<<<<< HEAD
 import store from '../store'
+=======
+import Character from '../utils/character'
+>>>>>>> 585106d (Player can move by tile with tween. (teleport))
 
 export default class PlayScene extends Scene {
   constructor () {
@@ -13,13 +17,20 @@ export default class PlayScene extends Scene {
     this.wall = null
   }
   init () {
+    this.tileGroup = this.add.group()
+    const PlayerSettings = { HP: 4 }
+    this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000', PlayerSettings)
   }
   preload () {
   }
   async create () {
     console.log('play scene created')
+<<<<<<< HEAD
     store.dispatch('showNotification', 'GET a broken bottle')
 
+=======
+    this.Character_instance.CharacterEvent.emit('moveCharacter_bytile', this.tileGroup.getChildren()[0], true)
+>>>>>>> 585106d (Player can move by tile with tween. (teleport))
     this.cameras.main.setZoom(0.6)
     const shadow = this.add.image(this.centerX, this.centerY + 900, 'tile-shadow').setOrigin(0.5, 1).setDepth(0.1)
     this.wall = new Wall(this, {

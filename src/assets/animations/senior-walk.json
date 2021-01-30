@@ -1,0 +1,31 @@
+{"frames": {
+
+    "frame_0000":
+    {
+        "frame": {"x":0,"y":0,"w":30,"h":40},
+        "rotated": false,
+        "trimmed": true,
+        "spriteSourceSize": {"x":1,"y":1,"w":30,"h":40},
+        "sourceSize": {"w":30,"h":40},
+        "pivot": {"x":0.5,"y":1}
+    },
+    "frame_0001":
+    {
+        "frame": {"x":30,"y":0,"w":30,"h":40},
+        "rotated": false,
+        "trimmed": true,
+        "spriteSourceSize": {"x":1,"y":1,"w":30,"h":40},
+        "sourceSize": {"w":30,"h":40},
+        "pivot": {"x":0.5,"y":1}
+    }
+},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "seniour-walk.png",
+	"format": "RGBA8888",
+	"size": {"w":30,"h":40},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:00da5f2dda959eb030a247ff97a460de:5ea25d6f22b1a599389e7149648afa47:f88fd930c3ec52f585d0c1bc69f4580c$"
+}
+}
