@@ -1,5 +1,6 @@
 import Store from 'beedle'
 import game from '../main'
+import itemJson from '../assets/json/item.json'
 
 const INIT_STAMINA = 30
 
@@ -18,7 +19,8 @@ const actions = {
     })
     document.querySelector('body')?.prepend(notificationElement)
   },
-  makeItemJitter (context, availableItems) {
+  makeItemJitter (context, itemId) {
+    const availableItems = itemJson.fixed.find(item => item.id === itemId)?.availableItems
     const statusList = context.state.items.map(itemId => {
       if (itemId === null) {
         return 'empty'
@@ -26,12 +28,14 @@ const actions = {
       return availableItems.map(item => item.in).includes(itemId) ? 'available' : 'exist'
     })
     if (!statusList.some(status => status === 'available')) {
-      return context.dispatch('showNotification', 'NO SUITABLE ITEMS')
+      return context.dispatch('showNotification', { message: 'NO SUITABLE ITEMS' })
     }
     context.dispatch('setBaggageStatus', {
       statusList,
       clickEvent: (index) => {
-        context.dispatch('useItem', context.state.items[index])
+        const availableItems = itemJson.fixed.find(item => item.id === itemId)?.availableItems
+        const inOutTable = availableItems.find(inOutTable => inOutTable.in === context.state.items[index])
+        context.dispatch('useItem', inOutTable)
       }
     })
   },
@@ -43,8 +47,9 @@ const actions = {
     const baggageElement = document.querySelector('.baggage')
     for (let i = 0; i < baggageElement.children.length; i++) {
       const element = baggageElement.children[i]
-      element.onclick = clickEvent?.bind(this, [i])
+      element.onclick = clickEvent?.bind(this, i)
       element.dataset.status = statusList[i]
+      element.dataset.name = context.state.items[i]
     }
   },
   walk (context) {
@@ -66,8 +71,27 @@ const actions = {
       }
     })
   },
-  useItem (context, id) {
-    console.log('use item', id)
+  useItem (context, inOutTable) {
+    const index = context.state.items.findIndex(itemId => itemId === inOutTable.in)
+    const itemElement = document.querySelector('.baggage')?.children[index]
+
+    let outputItem = itemJson.fixed.find(item => item.id === inOutTable.out)
+    if (outputItem) {
+      // 新場景這類的事件 e.g 得到一張乾淨的桌子 
+      itemElement.dataset.status = 'empty'
+      context.state.items[index] = null
+      itemElement.dataset.name = ''
+      context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
+      const playScene = game.scene.keys['PlayScene']
+      playScene.table.setTexture(outputItem.id)
+    } else {
+      // 獲得新物品的事件
+      outputItem = itemJson.portable.find(item => item.id === inOutTable.out)
+      itemElement.dataset.status = 'exist'
+      itemElement.dataset.name = outputItem.name
+      context.state.items[index] = outputItem.id
+      context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
+    }
   }
 }
 
