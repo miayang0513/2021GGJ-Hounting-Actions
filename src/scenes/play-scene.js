@@ -18,7 +18,6 @@ export default class PlayScene extends Scene {
   init () {
     const PlayerSettings = { HP: 4 }
     this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000', PlayerSettings)
-    this.Pathfinding = new PathFinding(this.Character_instance)
   }
   preload () {
   }
@@ -34,23 +33,23 @@ export default class PlayScene extends Scene {
       depth: 0
     }).setOrigin(0.5, 1)
 
-    this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 }, { acceptable: true, pathfinder: this.Pathfinding, playerevents: this.Character_instance.CharacterEvent })
-    this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 }, { acceptable: true, pathfinder: this.Pathfinding, playerevents: this.Character_instance.CharacterEvent })
+    var firstFloor_collider = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
+    this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 }, { colliders: firstFloor_collider, pathfinder: this.Pathfinding, character: this.Character_instance })
+    this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 }, { acceptable: [], pathfinder: this.Pathfinding, character: this.Character_instance })
     // item setting
     this.pliers = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
     this.window = new Item(this, 'window', 'wall', { depth: 1000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
     this.groove = new Item(this, 'groove', 'wall', { depth: 1000, x: this.centerX + 192 * 2.25, y: this.centerY - 192 }).setOrigin(0.5, 1)
     this.curtain = new Item(this, 'curtain', 'wall', { depth: 1000, x: this.centerX - 192 * 0.8, y: this.centerY - 192 * 1.2 }).setOrigin(0.5, 1)
     this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
-    this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3}).setOrigin(0.5, 1)
+    this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3 }).setOrigin(0.5, 1)
     this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
-    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37 , 'openExit').setOrigin(0.5, 1).setDepth(1000)
+    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000)
     this.createAnim('openExitAnim', 'exit', 'openExit', 18)
-
     this.mountDragEvent()
 
-    this.Pathfinding.init(this.firstFloor.getChildren())
-    this.Character_instance.CharacterEvent.emit('moveCharacter_bytile', this.firstFloor.getChildren()[40], true)
+    // ↓這個方法可以直接設定玩家的樓層↓
+    this.Character_instance.setFloor(this.firstFloor, 40, true)
   }
   mountDragEvent () {
     const pinch = this.rexGestures.add.pinch()
@@ -63,9 +62,15 @@ export default class PlayScene extends Scene {
       })
   }
   update () {
-    this.Pathfinding.Finder.calculate()
+    if (this.Character_instance.floor) {
+      this.Character_instance.floor.pathfinder.Finder.calculate()
+    }
+    var spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+    if (Phaser.Input.Keyboard.JustDown(spacebar)) {
+      this.Character_instance.setFloor(this.secondFloor, 5, false)
+    }
   }
-  createAnim(key, name, atlas, endFrame) {
+  createAnim (key, name, atlas, endFrame) {
     const config = {
       key: key,
       frames: this.anims.generateFrameNames(atlas, {

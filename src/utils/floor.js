@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import PathFinding from './pathfinding'
 class Tile extends Phaser.GameObjects.Image {
   constructor (scene, { x, y, texture, depth, coordinateX, coordinateY, floor, acceptable, playerevents, pathfinder }) {
     super(scene, x, y, texture)
@@ -23,13 +24,6 @@ class Tile extends Phaser.GameObjects.Image {
         console.log(`${this.floor}樓 (${this.coordinateX}, ${this.coordinateY})`)
         this.CheckPosition()
       })
-    // this.scene.input.on('pointerover', function (event, gameObjects) {
-    //   gameObjects[0].setTint(0xff0000)
-    // })
-    // this.scene.input.on('pointerout', function (event, gameObjects) {
-    //   this.pathselecting = false
-    //   gameObjects[0].clearTint() //FIXME: 當被選中時顏色會被清除
-    // })
   }
 
   CheckPosition (playerevents = this.playerevents) {
@@ -47,7 +41,7 @@ class Tile extends Phaser.GameObjects.Image {
 }
 
 export default class Floor extends Phaser.GameObjects.Group {
-  constructor (scene, { column, row, floor }, { acceptable, playerevents, pathfinder }) {
+  constructor(scene, { column, row, floor }, { colliders = [], character }) {
     super(scene)
     this.scene = scene
     this.centerX = screen.width / 2
@@ -55,9 +49,13 @@ export default class Floor extends Phaser.GameObjects.Group {
     this.column = column
     this.row = row
     this.floor = floor
-    this.acceptable = acceptable
-    this.playerevents = playerevents
-    this.pathfinder = pathfinder
+
+    this.playerevents = character.CharacterEvent
+    //創建樓層時必須指定acceptable的位置
+    this.colliders = colliders
+    //用於進行路徑搜尋
+    this.pathfinder = new PathFinding(character)
+
     this.placeTiles()
   }
   placeTiles () {
@@ -78,7 +76,7 @@ export default class Floor extends Phaser.GameObjects.Group {
           coordinateX: x,
           coordinateY: y,
           floor: this.floor,
-          acceptable: this.acceptable,
+          acceptable: this.is_acceptable([y, x]),
           playerevents: this.playerevents,
           pathfinder: this.pathfinder
         }
@@ -89,5 +87,17 @@ export default class Floor extends Phaser.GameObjects.Group {
         this.add(tile)
       }
     }
+    this.pathfinder.init(this.getChildren())
+  }
+  is_acceptable(index) {
+    for (let i = 0; i < this.colliders.length; i++) {
+      const element = this.colliders[i];
+      if (element[0] == index[0] &&
+          element[1] == index[1]) {
+        console.log(element)
+        return false
+      }
+    }
+    return true
   }
 }
