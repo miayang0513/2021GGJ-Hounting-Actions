@@ -6,7 +6,7 @@ import store from '../store'
 import Character from '../utils/character'
 import PathFinding from '../utils/pathfinding'
 export default class PlayScene extends Scene {
-  constructor () {
+  constructor() {
     super({ key: 'PlayScene' })
     this.centerX = screen.width / 2
     this.centerY = screen.height / 2
@@ -15,13 +15,13 @@ export default class PlayScene extends Scene {
     this.wall = null
   }
 
-  init () {
+  init() {
     const PlayerSettings = { HP: 4 }
     this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000', PlayerSettings)
   }
-  preload () {
+  preload() {
   }
-  async create () {
+  async create() {
     console.log('play scene created')
     store.dispatch('showNotification', 'GET a broken bottle')
     this.cameras.main.setZoom(0.7)
@@ -36,6 +36,7 @@ export default class PlayScene extends Scene {
     var firstFloor_collider = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
     this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 }, { colliders: firstFloor_collider, pathfinder: this.Pathfinding, character: this.Character_instance })
     this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 }, { acceptable: [], pathfinder: this.Pathfinding, character: this.Character_instance })
+
     // item setting
     this.pliers = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
     this.window = new Item(this, 'window', 'wall', { depth: 1000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
@@ -54,7 +55,7 @@ export default class PlayScene extends Scene {
     // ↓這個方法可以直接設定玩家的樓層↓
     this.Character_instance.setFloor(this.firstFloor, 40, true)
   }
-  mountDragEvent () {
+  mountDragEvent() {
     const pinch = this.rexGestures.add.pinch()
     const camera = this.cameras.main
     pinch
