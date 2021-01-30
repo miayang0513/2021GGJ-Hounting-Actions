@@ -44,6 +44,8 @@ export default class PlayScene extends Scene {
     this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
     this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3}).setOrigin(0.5, 1)
     this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
+    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37 , 'openExit').setOrigin(0.5, 1).setDepth(1000)
+    this.createAnim('openExitAnim', 'exit', 'openExit', 18)
 
     this.mountDragEvent()
 
@@ -62,5 +64,19 @@ export default class PlayScene extends Scene {
   }
   update () {
     this.Pathfinding.Finder.calculate()
+  }
+  createAnim(key, name, atlas, endFrame) {
+    const config = {
+      key: key,
+      frames: this.anims.generateFrameNames(atlas, {
+        prefix: name + '_',
+        suffix: '.png',
+        start: 0,
+        zeroPad: 3,
+        end: endFrame
+      }),
+      frameRate: 25
+    }
+    this.anims.create(config)
   }
 }
