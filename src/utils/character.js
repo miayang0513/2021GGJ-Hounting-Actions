@@ -69,6 +69,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
         },
         onCompleteParams: [this]
       }
+      
     }
     this.anims.play('walk')
     this.scene.tweens.timeline({ tweens: _tweens })

@@ -6,7 +6,7 @@ import store from '../store'
 import Character from '../utils/character'
 import PathFinding from '../utils/pathfinding'
 export default class PlayScene extends Scene {
-  constructor () {
+  constructor() {
     super({ key: 'PlayScene' })
     this.centerX = screen.width / 2
     this.centerY = screen.height / 2
@@ -15,13 +15,13 @@ export default class PlayScene extends Scene {
     this.wall = null
   }
 
-  init () {
+  init() {
     const PlayerSettings = { HP: 4 }
     this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000', PlayerSettings)
   }
-  preload () {
+  preload() {
   }
-  async create () {
+  async create() {
     console.log('play scene created')
     store.dispatch('showNotification', 'GET a broken bottle')
     this.cameras.main.setZoom(0.7)
@@ -54,7 +54,7 @@ export default class PlayScene extends Scene {
     // ↓這個方法可以直接設定玩家的樓層↓
     this.Character_instance.setFloor(this.firstFloor, 40, true)
   }
-  mountDragEvent () {
+  mountDragEvent() {
     const pinch = this.rexGestures.add.pinch()
     const camera = this.cameras.main
     pinch
