@@ -44,9 +44,11 @@ class Tile extends Phaser.GameObjects.Image {
 
   setDot() {
     this.dot.setVisible(true)
+    this.borderRec.setVisible(false)
   }
 
   setBorderRec() {
+    this.dot.setVisible(false)
     this.borderRec.setVisible(true)
   }
   

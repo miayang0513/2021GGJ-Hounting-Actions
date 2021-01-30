@@ -60,19 +60,19 @@ export default class PathFinding {
                 const tilePath = []
                 for (let p = 0; p < path.length; p++) {
                     const element = path[p]
+                    const lastElement = path[p-1]
                     const tile = tiles.find(t => t.coordinateX == element.x && t.coordinateY == element.y)
-                    if (p === path.length - 1 ) {
+                    if (p === path.length - 1) {
                         if (tile.hasOwnProperty('item')) {
                             continue
                         }
-                        // finally grid
-                        tile.setBorderRec()
                     } else {
                         // grid on middle path
                         tile.setDot()
                     }
                     tilePath[p] = tile
                 }
+                tilePath[tilePath.length-1].setBorderRec()
                 comfirm(tilePath)
             })
     }
