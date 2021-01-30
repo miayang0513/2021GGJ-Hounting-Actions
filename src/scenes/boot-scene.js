@@ -22,6 +22,7 @@ import faceDoor from '../assets/images/fake-door.png'
 import reflection from '../assets/images/reflection.png'
 import dot from '../assets/images/dot.png'
 import borderRec from '../assets/images/border-rec.png'
+import itemIndicator from '../assets/images/item-indicator.png'
 
 export default class BootScene extends Scene {
   constructor () {
@@ -50,6 +51,7 @@ export default class BootScene extends Scene {
     this.load.image('reflection', reflection)
     this.load.image('dot', dot)
     this.load.image('borderRec', borderRec)
+    this.load.image('itemIndicator', itemIndicator)
   }
   async create () {
     console.log('boot scene created')
