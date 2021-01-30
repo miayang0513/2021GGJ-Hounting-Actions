@@ -61,7 +61,9 @@ class Tile extends Phaser.GameObjects.Image {
 
 export default class Floor extends Phaser.GameObjects.Group {
   constructor(scene, { column, row, floor }, { colliders = [], character }) {
+
     super(scene)
+    
     this.scene = scene
     this.centerX = screen.width / 2
     this.centerY = screen.height / 2

@@ -14,7 +14,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.coordinateX = 0
     this.coordinateY = 0
     this.state = 'idle'
-    this.floor = null //用來處理
+    this.floor = null
 
     this.InitAnimConfig(texture)
 <<<<<<< HEAD
@@ -32,6 +32,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
         console.log('CharacterHp:' + this.HP)
       })
   }
+<<<<<<< HEAD
   setFloor (Floor, Index, instant = false) {
     if (this.floor) this.floor.pathfinder.ClearPathHint()
     this.floor = Floor
@@ -51,8 +52,10 @@ export default class Character extends Phaser.GameObjects.Sprite {
       this.coordinateX = tilePath[i].coordinateX
       this.coordinateY = tilePath[i].coordinateY
 =======
+=======
+>>>>>>> ba95dbd (fix: second floor bug)
   setFloor(Floor, Index, instant = false) {
-    if(this.floor) this.floor.pathfinder.ClearPathHint()
+    if (this.floor) this.floor.pathfinder.ClearPathHint()
     this.floor = Floor
     this._move_bytile(this.floor.getChildren()[Index], instant)
     this.floor.pathfinder.ClearPathHint()
@@ -60,15 +63,17 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
   _move_path(tile = []) {
 
+  _move_path({ tilePath, targetTile }) {
+    store.dispatch('cancelItemJitter')
     this.state = 'walking'
     var _tweens = []
-    _tweens.length = tile.length
-    for (let i = 0; i < tile.length; i++) {
+    for (let i = 0; i < tilePath.length; i++) {
 
       this.coordinateX = tile[i].coordinateX
       this.coordinateY = tile[i].coordinateY
 >>>>>>> 6847e28 (Player can interactive with second floor.)
 
+<<<<<<< HEAD
       _tweens[i] =
       {
         targets: this,
@@ -110,6 +115,32 @@ export default class Character extends Phaser.GameObjects.Sprite {
         _tweens[i].onComplete = function (tween, targets, character) { character.anims.play('idle'); character.state = 'idle' }
 >>>>>>> 6847e28 (Player can interactive with second floor.)
       }
+=======
+      _tweens.push(
+        {
+          targets: this,
+          x: tilePath[i].x,
+          y: tilePath[i].y - 100,
+          duration: 500,
+          ease: 'Expo',
+          easeParams: [],
+          yoyo: false,
+          onStart: function (tween, targets, depth, character) { character.depth = depth + 50 },
+          onStartParams: [tilePath[i].depth, this],
+          onComplete: function (tween, targets, character) {
+            if (i === tilePath.length - 1) {
+              character.anims.play('idle')
+              character.state = 'idle'
+              if (targetTile.hasOwnProperty('item')) {
+                const item = itemJson.find(item => item.id === targetTile.item.id)
+                store.dispatch('makeItemJitter', item.availableItems)
+              }
+            }
+          },
+          onCompleteParams: [this]
+        }
+      )
+>>>>>>> ba95dbd (fix: second floor bug)
     }
     this.anims.play('walk')
     this.scene.tweens.timeline({ tweens: _tweens })

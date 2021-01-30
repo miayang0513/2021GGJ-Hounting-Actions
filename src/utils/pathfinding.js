@@ -37,8 +37,6 @@ export default class PathFinding {
             }
             _grid[element.coordinateY][element.coordinateX] = 0
         }
-
-        console.log(_grid)
         this.Finder.setGrid(_grid)
         this.Finder.setAcceptableTiles([0])
     }
@@ -51,9 +49,10 @@ export default class PathFinding {
     }
 
     Find(Tile, comfirm, tiles = this.tiles) {
-
         if (this.Player.state != 'idle') return
+        if (this.Player.floor.pathfinder != this) return
         this.ClearPathHint()
+        console.log(this.Player.coordinateX+"/"+this.Player.coordinateY)
         this.Finder.findPath(this.Player.coordinateX, this.Player.coordinateY, Tile.coordinateX, Tile.coordinateY,
             function (path) {
                 if (path == null) return
