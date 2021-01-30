@@ -6,6 +6,9 @@ import wall from '../assets/images/wall.png'
 
 import character_png from '../assets/animations/senior-walk.png'
 import character_an from '../assets/animations/senior-walk.json'
+import pliers from '../assets/images/pliers.png'
+import window from '../assets/images/window.png'
+
 export default class BootScene extends Scene {
   constructor () {
     super({ key: 'BootScene' })
@@ -18,6 +21,9 @@ export default class BootScene extends Scene {
     this.load.image('tile-shadow', tileShadow)
     this.load.image('wall', wall)
     this.load.atlas('character_atlas', character_png,character_an)
+
+    this.load.image('pliers', pliers)
+    this.load.image('window', window)
   }
   async create () {
     console.log('boot scene created')
