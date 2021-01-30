@@ -4,7 +4,6 @@ import Wall from '../utils/wall'
 import Item from '../utils/item'
 import store from '../store'
 import Character from '../utils/character'
-import PathFinding from '../utils/pathfinding'
 export default class PlayScene extends Scene {
   constructor() {
     super({ key: 'PlayScene' })
@@ -14,16 +13,13 @@ export default class PlayScene extends Scene {
     this.secondFloor = null
     this.wall = null
   }
-
-  init() {
-    const PlayerSettings = { HP: 4 }
-    this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000', PlayerSettings)
+  init () {
+    this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000')
   }
   preload() {
   }
-  async create() {
-    console.log('play scene created')
-    store.dispatch('showNotification', 'GET a broken bottle')
+  async create () {
+    store.dispatch('showNotification', { message: 'GAME START' })
     this.cameras.main.setZoom(0.7)
     const shadow = this.add.image(this.centerX, this.centerY + 900, 'tile-shadow').setOrigin(0.5, 1).setDepth(0.1)
     this.wall = new Wall(this, {
@@ -44,7 +40,7 @@ export default class PlayScene extends Scene {
     this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
     this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3 }).setOrigin(0.5, 1)
     this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
-    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37 , 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
+    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
     this.createAnim('openExitAnim', 'exit', 'openExit', 18)
     this.fakeDoor = new Item(this, 'fakeDoor', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)
     this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1).setVisible(false)

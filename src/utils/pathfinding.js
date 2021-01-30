@@ -2,13 +2,13 @@ import EasyStar from 'easystarjs'
 
 export default class PathFinding {
 
-    constructor(Player) {
+    constructor (Player) {
         this.Finder = new EasyStar.js()
         this.Player = Player
         this.tiles = []
     }
 
-    init(_tiles) {
+    init (_tiles) {
         var GridRight = 0
         var GridBottom = 0
 
@@ -41,37 +41,36 @@ export default class PathFinding {
         this.Finder.setAcceptableTiles([0])
     }
 
-    ClearPathHint(tiles = this.tiles) {
+    ClearPathHint (tiles = this.tiles) {
         for (let t = 0; t < tiles.length; t++) {
             var element = tiles[t]
             element.clearIndicator()
         }
     }
 
-    Find(Tile, comfirm, tiles = this.tiles) {
+    Find (Tile, comfirm, tiles = this.tiles) {
         if (this.Player.state != 'idle') return
         if (this.Player.floor.pathfinder != this) return
         this.ClearPathHint()
-        console.log(this.Player.coordinateX+"/"+this.Player.coordinateY)
+        console.log(this.Player.coordinateX + "/" + this.Player.coordinateY)
         this.Finder.findPath(this.Player.coordinateX, this.Player.coordinateY, Tile.coordinateX, Tile.coordinateY,
             function (path) {
-                if (path == null) return
+                if (path === null) {
+                    return
+                }
                 const tilePath = []
                 for (let p = 0; p < path.length; p++) {
-                    const element = path[p]
-                    const lastElement = path[p-1]
-                    const tile = tiles.find(t => t.coordinateX == element.x && t.coordinateY == element.y)
-                    if (p === path.length - 1) {
-                        if (tile.hasOwnProperty('item')) {
-                            continue
-                        }
+                    const { x, y } = path[p]
+                    const tile = tiles.find(t => t.coordinateX == x && t.coordinateY == y)
+                    if (p === path.length - 1 && tile.hasOwnProperty('item')) {
+                        continue
                     } else {
                         // grid on middle path
                         tile.setDot()
                     }
                     tilePath[p] = tile
                 }
-                tilePath[tilePath.length-1].setBorderRec()
+                tilePath[tilePath.length - 1].setBorderRec()
                 comfirm(tilePath)
             })
     }
