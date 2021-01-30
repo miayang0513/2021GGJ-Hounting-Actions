@@ -3,7 +3,7 @@ import PlayScene from '../scenes/play-scene'
 import PathFinding from './pathfinding'
 
 class Tile extends Phaser.GameObjects.Image {
-  constructor (scene, { x, y, texture, depth, coordinateX, coordinateY, floor }) {
+  constructor(scene, { x, y, texture, depth, coordinateX, coordinateY, floor, acceptable, playerevents, pathfinder }) {
     super(scene, x, y, texture)
     scene.add.existing(this)
     this.pathselecting = false
@@ -11,13 +11,12 @@ class Tile extends Phaser.GameObjects.Image {
     this.coordinateY = coordinateY
     this.depth = depth
     this.floor = floor
-    // this.acceptable = options.acceptable
-    // this.playerevents = options.playerevents
-    // this.pathfinder = options.pathfinder
+    this.acceptable = acceptable
+    this.playerevents = playerevents
+    this.pathfinder = pathfinder
     this._interactArea = new Phaser.Geom.Polygon([
       0, 101,
-      96, 150,
-      192, 101,
+      96, 150, 192, 101,
       192, 89,
       96, 41,
       0, 89
@@ -25,7 +24,7 @@ class Tile extends Phaser.GameObjects.Image {
     this.setInteractive(this._interactArea, Phaser.Geom.Polygon.Contains)
       .on('pointerdown', () => {
         console.log(`${this.floor}樓 (${this.coordinateX}, ${this.coordinateY})`)
-        // this.CheckPosition()
+        this.CheckPosition()
       })
     // this.scene.input.on('pointerover', function (event, gameObjects) {
     //   gameObjects[0].setTint(0xff0000)
@@ -36,7 +35,7 @@ class Tile extends Phaser.GameObjects.Image {
     // }
   }
 
-  CheckPosition (playerevents = this.playerevents) {
+  CheckPosition(playerevents = this.playerevents) {
     if (this.pathselecting == false) {
       this.pathselecting = true
       this.pathfinder.Find(this, function () { })
@@ -51,7 +50,7 @@ class Tile extends Phaser.GameObjects.Image {
 }
 
 export default class Floor extends Phaser.GameObjects.Group {
-  constructor (scene, { column, row, floor }) {
+  constructor(scene, { column, row, floor }, { acceptable, playerevents, pathfinder }) {
     super(scene)
     this.scene = scene
     this.centerX = screen.width / 2
@@ -59,9 +58,12 @@ export default class Floor extends Phaser.GameObjects.Group {
     this.column = column
     this.row = row
     this.floor = floor
+    this.acceptable = acceptable
+    this.playerevents = playerevents
+    this.pathfinder = pathfinder
     this.placeTiles()
   }
-  placeTiles () {
+  placeTiles() {
     const tileWidth = 192
     const tileHeight = 96
     const tileWidthHalf = tileWidth / 2
@@ -78,7 +80,10 @@ export default class Floor extends Phaser.GameObjects.Group {
           depth: this.centerY + ty,
           coordinateX: x,
           coordinateY: y,
-          floor: this.floor
+          floor: this.floor,
+          acceptable: this.acceptable,
+          playerevents: this.playerevents,
+          pathfinder: this.pathfinder
         }
         const tile = new Tile(this.scene, options).setOrigin(0.5, 1)
         if (x < 7 && y < 3 && this.floor === 1) {

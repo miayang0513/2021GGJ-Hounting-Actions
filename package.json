@@ -14,9 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "beedle": "^0.8.1",
+    "easystarjs": "^0.4.4",
     "phaser": "^3.52.0",
-    "phaser3-rex-plugins": "^1.1.39",
-    "easystarjs": "^0.4.4"
+    "phaser3-rex-plugins": "^1.1.39"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^7.0.0",

@@ -66,7 +66,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
   _move(x, y, depth, instant) {
     var tX = x
     var tY = y - 100 //FIXME: 因為希望角色顯示在正中間所以硬幹
-    this.depth = depth + 100000 //FIXME: 因為希望角色顯示在最上面所以硬幹
+    this.depth = depth +300 //FIXME: 因為希望角色顯示在最上面所以硬幹
 
     if (instant) {
       this.x = tX
