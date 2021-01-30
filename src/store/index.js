@@ -1,6 +1,8 @@
 import Store from 'beedle'
 import game from '../main'
 
+const INIT_STAMINA = 30
+
 const actions = {
   showNotification (context, { message, callback = null }) {
     const notificationElement = document.createElement('div')
@@ -59,6 +61,8 @@ const actions = {
       message: 'YOU FAILED',
       callback: () => {
         playScene.scene.restart()
+        context.state.stamina = INIT_STAMINA
+        document.querySelector('.role-status__stamina').innerHTML = `STAMINA: ${context.state.stamina}`
       }
     })
   },
@@ -71,7 +75,7 @@ const mutations = {}
 
 const initialState = {
   name: 'SNOW',
-  stamina: 10,
+  stamina: INIT_STAMINA,
   items: ['rope', 'necklace', 'umbrella', 'wine-bottle'],
 }
 
