@@ -5,7 +5,11 @@ import Wall from '../utils/wall'
 import store from '../store'
 =======
 import Character from '../utils/character'
+<<<<<<< HEAD
 >>>>>>> 585106d (Player can move by tile with tween. (teleport))
+=======
+import PathFinding from '../utils/pathfinding'
+>>>>>>> a8f47ac (haracter walk tile by tile and calculate path.)
 
 export default class PlayScene extends Scene {
   constructor () {
@@ -16,19 +20,25 @@ export default class PlayScene extends Scene {
     this.secondFloor = null
     this.wall = null
   }
+
   init () {
     this.tileGroup = this.add.group()
     const PlayerSettings = { HP: 4 }
     this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000', PlayerSettings)
+    this.Pathfinding = new PathFinding(this.Character_instance)
   }
   preload () {
   }
   async create () {
     console.log('play scene created')
 <<<<<<< HEAD
+<<<<<<< HEAD
     store.dispatch('showNotification', 'GET a broken bottle')
 
 =======
+=======
+    this.Pathfinding.init(this.tileGroup.getChildren())
+>>>>>>> a8f47ac (haracter walk tile by tile and calculate path.)
     this.Character_instance.CharacterEvent.emit('moveCharacter_bytile', this.tileGroup.getChildren()[0], true)
 >>>>>>> 585106d (Player can move by tile with tween. (teleport))
     this.cameras.main.setZoom(0.6)
@@ -53,5 +63,8 @@ export default class PlayScene extends Scene {
         camera.scrollX -= drag1Vector.x / camera.zoom
         camera.scrollY -= drag1Vector.y / camera.zoom
       })
+  }
+  update () {
+    this.Pathfinding.Finder.calculate()
   }
 }
