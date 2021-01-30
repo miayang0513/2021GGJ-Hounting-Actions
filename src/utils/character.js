@@ -3,22 +3,36 @@ import store from '../store'
 
 export default class Character extends Phaser.GameObjects.Sprite {
 
-  constructor (scene, x, y, texture, frame, options) {
+  constructor (scene, x, y, texture, options) {
 
-    super(scene, x, y, texture, frame)
+    super(scene, x, y, texture,)
 
     scene.add.existing(this)
 
     this.coordinateX = 0
     this.coordinateY = 0
     this.state = 'idle'
+    this.direction = 'left_front'
     this.floor = null //用來處理
+    this.setOrigin(0.5, 1)
 
-    this.InitAnimConfig(texture)
+    this.generateAnim('left_back_idle', 'left_back', 0, 0, 0)
+    this.generateAnim('left_back_walk', 'left_back', 1, 2, -1)
+    this.generateAnim('left_front_idle', 'left_front', 0, 0, 0)
+    this.generateAnim('left_front_walk', 'left_front', 1, 2, -1)
+    this.generateAnim('right_back_idle', 'right_back', 0, 0, 0)
+    this.generateAnim('right_back_walk', 'right_back', 1, 2, -1)
+    this.generateAnim('right_front_idle', 'right_front', 0, 0, 0)
+    this.generateAnim('right_front_walk', 'right_front', 1, 2, -1)
+    // this.generateAnim('umbrella_walk', 'umbrella', 1, 2, -1)
+    this.generateAnim('climb_walk', 'climb', 0, 2 , -1)
+    this.play(`${this.direction}_${this.state}`)
+
     this.CharacterEvent = new Phaser.Events.EventEmitter()
     this.CharacterEvent.on('moveCharacter_bytile', this._move_bytile, this)
     this.CharacterEvent.on('moveCharacter_bypath', this._move_path, this)
   }
+
   setFloor (Floor, Index, instant = false) {
     if (this.floor) this.floor.pathfinder.ClearPathHint()
     this.floor = Floor
@@ -26,9 +40,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.floor.pathfinder.ClearPathHint()
   }
 
-
   _move_path ({ tilePath, targetTile }) {
-    this.state = 'walking'
+    this.state = 'walk'
     store.dispatch('cancelItemJitter')
     var _tweens = []
     _tweens.length = tilePath.length
@@ -37,11 +50,26 @@ export default class Character extends Phaser.GameObjects.Sprite {
       this.coordinateX = tilePath[i].coordinateX
       this.coordinateY = tilePath[i].coordinateY
 
+      // 決定方位
+      if (i !== tilePath.length-1) {
+        const nextX = tilePath[i+1].coordinateX
+        const nextY = tilePath[i+1].coordinateY
+        if (nextX < this.coordinateX && nextY === this.coordinateY) { // 左上
+          this.direction = 'left_back'
+        } else if (nextX > this.coordinateX && nextY === this.coordinateY) { // 右下
+          this.direction = 'right_front'
+        } else if (nextX === this.coordinateX && nextY < this.coordinateY) { // 右上
+          this.direction = 'right_back'
+        } else {
+          this.direction = 'left_front'
+        }
+      }
+
       _tweens[i] =
       {
         targets: this,
         x: tilePath[i].x,
-        y: tilePath[i].y - 100,
+        y: tilePath[i].y - this.height/1.5,
         duration: 500,
         ease: 'Expo',
         easeParams: [],
@@ -52,8 +80,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
           console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
           store.dispatch('walk')
           if (i === tilePath.length - 1) {
-            character.anims.play('idle')
             character.state = 'idle'
+            this.play(`${this.direction}_${this.state}`)
             if (targetTile.hasOwnProperty('item')) {
               store.dispatch('makeItemJitter', targetTile.item.id)
             }
@@ -63,9 +91,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
         },
         onCompleteParams: [this]
       }
-      
     }
-    this.anims.play('walk')
+    this.play(`${this.direction}_${this.state}`)
     this.scene.tweens.timeline({ tweens: _tweens })
   }
 
@@ -78,8 +105,9 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
   _move (x, y, depth, instant) {
     var tX = x
-    var tY = y - 100 //FIXME: 因為希望角色顯示在正中間所以硬幹
+    var tY = y - this.height/1.5 //FIXME: 因為希望角色顯示在正中間所以硬幹
     this.depth = depth + 300 //FIXME: 因為希望角色顯示在最上面所以硬幹
+    // TODO: 到二樓後 depth 變大
 
     if (instant) {
       this.x = tX
@@ -101,21 +129,19 @@ export default class Character extends Phaser.GameObjects.Sprite {
     })
   }
 
-  InitAnimConfig (an_init_texture) {
-    const anim_walk = {
-      key: 'walk',
-      frames: an_init_texture,
-      frameRate: 10,
-      repeat: -1
+  generateAnim (key, posName, startFrame, endFrame, repeat) {
+    const config = {
+      key: key,
+      frames: this.scene.anims.generateFrameNames(this.texture.key, {
+        prefix: posName+ '_',
+        suffix: '.png',
+        start: startFrame,
+        end: endFrame,
+      }),
+      frameRate: 5,
+      repeat: repeat
     }
-    const anim_idle = {
-      key: 'idle',
-      frames: an_init_texture,
-      frameRate: 0,
-      repeat: -1
-    }
-    this.anims.create(anim_idle)
-    this.anims.create(anim_walk)
-    this.anims.play('idle')
+    this.scene.anims.create(config)
   }
+
 }

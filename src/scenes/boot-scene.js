@@ -8,6 +8,8 @@ import character_png from '../assets/animations/senior-walk.png'
 import character_an from '../assets/animations/senior-walk.json'
 import openExitPng from '../assets/animations/open-exit.png'
 import openExitJson from '../assets/animations/open-exit.json'
+import characterPng from '../assets/animations/character.png'
+import characterJson from '../assets/animations/character.json'
 
 import pliers from '../assets/images/pliers.png'
 import window from '../assets/images/window.png'
@@ -35,6 +37,8 @@ export default class BootScene extends Scene {
     this.load.image('tile-dark', tileDark)
     this.load.image('tile-shadow', tileShadow)
     this.load.image('wall', wall)
+
+    this.load.atlas('character', characterPng, characterJson)
     this.load.atlas('character_atlas', character_png, character_an)
     this.load.atlas('openExit', openExitPng, openExitJson)
 
