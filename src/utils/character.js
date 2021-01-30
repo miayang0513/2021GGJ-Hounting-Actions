@@ -3,11 +3,7 @@ import store from '../store'
 
 export default class Character extends Phaser.GameObjects.Sprite {
 
-<<<<<<< HEAD
   constructor (scene, x, y, texture, options) {
-=======
-  constructor(scene, x, y, texture, frame, options) {
->>>>>>> 23edef7 (feat: can fall from sec. floor)
 
     super(scene, x, y, texture,)
 
@@ -16,7 +12,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.coordinateX = 0
     this.coordinateY = 0
     this.state = 'idle'
-<<<<<<< HEAD
     this.direction = 'left_front'
     this.floor = null //用來處理
     this.setOrigin(0.5, 1)
@@ -32,21 +27,15 @@ export default class Character extends Phaser.GameObjects.Sprite {
     // this.generateAnim('umbrella_walk', 'umbrella', 1, 2, -1)
     this.generateAnim('climb_walk', 'climb', 0, 2 , -1)
     this.play(`${this.direction}_${this.state}`)
-=======
     this.floor = null
 
     this.tileEvent = [{ x: 0, y: 0, floor: null, callback: () => { } }]
->>>>>>> 23edef7 (feat: can fall from sec. floor)
 
     this.CharacterEvent = new Phaser.Events.EventEmitter()
     this.CharacterEvent.on('moveCharacter_bytile', this._move_bytile, this)
     this.CharacterEvent.on('moveCharacter_bypath', this._move_path, this)
   }
 
-<<<<<<< HEAD
-  setFloor (Floor, Index, instant = false) {
-    if (this.floor) this.floor.pathfinder.ClearPathHint()
-=======
   traverse_event() {
     //FIXME: 不管怎樣都會呼叫
     for (let i = 0; i < this.tileEvent.length; i++) {
@@ -64,7 +53,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
       this.floor.pathfinder.ClearPathHint()
       this.floor.setInteractable(false)
     }
->>>>>>> 23edef7 (feat: can fall from sec. floor)
     this.floor = Floor
     this.floor.setInteractable(true)
 
@@ -72,14 +60,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.floor.pathfinder.ClearPathHint()
   }
 
-<<<<<<< HEAD
   _move_path ({ tilePath, targetTile }) {
     this.state = 'walk'
-=======
-
-  _move_path({ tilePath, targetTile }) {
-    this.state = 'walking'
->>>>>>> 23edef7 (feat: can fall from sec. floor)
     store.dispatch('cancelItemJitter')
     var _tweens = []
     _tweens.length = tilePath.length
@@ -130,10 +112,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
         },
         onCompleteParams: [this]
       }
-<<<<<<< HEAD
-=======
-
->>>>>>> 23edef7 (feat: can fall from sec. floor)
     }
     this.play(`${this.direction}_${this.state}`)
     this.scene.tweens.timeline({ tweens: _tweens })
@@ -172,7 +150,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
     })
   }
 
-<<<<<<< HEAD
   generateAnim (key, posName, startFrame, endFrame, repeat) {
     const config = {
       key: key,
@@ -184,20 +161,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
       }),
       frameRate: 5,
       repeat: repeat
-=======
-  InitAnimConfig(an_init_texture) {
-    const anim_walk = {
-      key: 'walk',
-      frames: an_init_texture,
-      frameRate: 10,
-      repeat: -1
-    }
-    const anim_idle = {
-      key: 'idle',
-      frames: an_init_texture,
-      frameRate: 0,
-      repeat: -1
->>>>>>> 23edef7 (feat: can fall from sec. floor)
     }
     this.scene.anims.create(config)
   }

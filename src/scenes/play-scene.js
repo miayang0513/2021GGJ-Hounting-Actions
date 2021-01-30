@@ -13,13 +13,8 @@ export default class PlayScene extends Scene {
     this.secondFloor = null
     this.wall = null
   }
-<<<<<<< HEAD
-  init () {
-    this.Character_instance = new Character(this, 40, 40, 'character')
-=======
   init() {
     this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000')
->>>>>>> 23edef7 (feat: can fall from sec. floor)
   }
   preload () {
   }
@@ -59,9 +54,6 @@ export default class PlayScene extends Scene {
     // ↓把會死的第二層設定出來↓
     this.setFallRange()
   }
-<<<<<<< HEAD
-  mountDragEvent () {
-=======
 
   setFallRange() {
 
@@ -83,7 +75,6 @@ export default class PlayScene extends Scene {
   }
 
   mountDragEvent() {
->>>>>>> 23edef7 (feat: can fall from sec. floor)
     const pinch = this.rexGestures.add.pinch()
     const camera = this.cameras.main
     pinch
@@ -93,7 +84,6 @@ export default class PlayScene extends Scene {
         camera.scrollY -= drag1Vector.y / camera.zoom
       })
   }
-<<<<<<< HEAD
   mountWheelEvent () {
     this.deltaY = 0
     this.input.on('wheel', (pointer, gameObject, deltaX, deltaY, deltaZ) => {
@@ -107,9 +97,6 @@ export default class PlayScene extends Scene {
     })
   }
   update () {
-=======
-  update() {
->>>>>>> 23edef7 (feat: can fall from sec. floor)
     if (this.Character_instance.floor) {
       this.Character_instance.floor.pathfinder.Finder.calculate()
     }
