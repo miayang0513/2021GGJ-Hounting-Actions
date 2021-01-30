@@ -5,7 +5,7 @@ import Item from '../utils/item'
 import store from '../store'
 import Character from '../utils/character'
 export default class PlayScene extends Scene {
-  constructor() {
+  constructor () {
     super({ key: 'PlayScene' })
     this.centerX = screen.width / 2
     this.centerY = screen.height / 2
@@ -16,7 +16,7 @@ export default class PlayScene extends Scene {
   init () {
     this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000')
   }
-  preload() {
+  preload () {
   }
   async create () {
     store.dispatch('showNotification', { message: 'GAME START' })
@@ -46,11 +46,12 @@ export default class PlayScene extends Scene {
     this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1).setVisible(false)
 
     this.mountDragEvent()
+    this.mountWheelEvent()
 
     // ↓這個方法可以直接設定玩家的樓層↓
     this.Character_instance.setFloor(this.firstFloor, 40, true)
   }
-  mountDragEvent() {
+  mountDragEvent () {
     const pinch = this.rexGestures.add.pinch()
     const camera = this.cameras.main
     pinch
@@ -59,6 +60,18 @@ export default class PlayScene extends Scene {
         camera.scrollX -= drag1Vector.x / camera.zoom
         camera.scrollY -= drag1Vector.y / camera.zoom
       })
+  }
+  mountWheelEvent () {
+    this.deltaY = 0
+    this.input.on('wheel', (pointer, gameObject, deltaX, deltaY, deltaZ) => {
+      let zoom = this.cameras.main.zoom + deltaY / 1000
+      if (zoom <= 0.3) {
+        zoom = 0.3
+      } else if (zoom >= 3) {
+        zoom = 3
+      }
+      this.cameras.main.setZoom(zoom)
+    })
   }
   update () {
     if (this.Character_instance.floor) {
