@@ -4,6 +4,10 @@ import tileLight from '../assets/images/tile-light.png'
 import tileDark from '../assets/images/tile-dark.png'
 import tileShadow from '../assets/images/tile-shadow.png'
 import wall from '../assets/images/wall.png'
+
+import pliers from '../assets/images/pliers.png'
+import window from '../assets/images/window.png'
+
 export default class BootScene extends Scene {
   constructor () {
     super({ key: 'BootScene' })
@@ -15,6 +19,9 @@ export default class BootScene extends Scene {
     this.load.image('tile-dark', tileDark)
     this.load.image('tile-shadow', tileShadow)
     this.load.image('wall', wall)
+
+    this.load.image('pliers', pliers)
+    this.load.image('window', window)
   }
   async create () {
     console.log('boot scene created')

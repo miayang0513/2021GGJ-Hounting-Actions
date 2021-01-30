@@ -1,6 +1,7 @@
 import { Scene } from 'phaser'
 import Floor from '../utils/floor'
 import Wall from '../utils/wall'
+import Item from '../utils/item'
 import store from '../store'
 
 export default class PlayScene extends Scene {
@@ -31,6 +32,8 @@ export default class PlayScene extends Scene {
 
     this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 })
     this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 })
+    this.item1 = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
+    this.item2 = new Item(this, 'window', 'wall', { depth: 1000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
     this.mountDragEvent()
   }
   mountDragEvent () {
