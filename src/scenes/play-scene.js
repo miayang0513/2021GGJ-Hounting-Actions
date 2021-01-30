@@ -1,5 +1,5 @@
 import { Scene } from 'phaser'
-import Tile from '../utils/tile'
+import Floor from '../utils/floor'
 import Wall from '../utils/wall'
 
 export default class PlayScene extends Scene {
@@ -7,7 +7,8 @@ export default class PlayScene extends Scene {
     super({ key: 'PlayScene' })
     this.centerX = screen.width / 2
     this.centerY = screen.height / 2
-    this.tileGroup = null
+    this.firstFloor = null
+    this.secondFloor = null
     this.wall = null
   }
   init () {
@@ -16,6 +17,7 @@ export default class PlayScene extends Scene {
   }
   async create () {
     console.log('play scene created')
+    this.cameras.main.setZoom(0.7)
 
     this.wall = new Wall(this, {
       x: this.centerX,
@@ -24,7 +26,8 @@ export default class PlayScene extends Scene {
       depth: 0
     }).setOrigin(0.5, 1)
 
-    this.placeTiles(9)
+    this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 })
+    this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 })
     this.mountDragEvent()
   }
   mountDragEvent () {
@@ -36,29 +39,5 @@ export default class PlayScene extends Scene {
         camera.scrollX -= drag1Vector.x / camera.zoom
         camera.scrollY -= drag1Vector.y / camera.zoom
       })
-  }
-  placeTiles (scale) {
-    this.tileGroup = this.add.group()
-    const tileWidth = 192
-    const tileHeight = 96
-    const tileWidthHalf = tileWidth / 2
-    const tileHeightHalf = tileHeight / 2
-
-    for (let y = 0; y < scale; y++) {
-      for (let x = 0; x < scale; x++) {
-        let tx = (x - y) * tileWidthHalf
-        let ty = (x + y) * tileHeightHalf
-        const options = {
-          x: this.centerX + tx,
-          y: this.centerY + ty,
-          texture: 'tile',
-          depth: this.centerY + ty,
-          coordinateX: x,
-          coordinateY: y
-        }
-        const tile = new Tile(this, options).setOrigin(0.5, 1)
-        this.tileGroup.add(tile)
-      }
-    }
   }
 }
