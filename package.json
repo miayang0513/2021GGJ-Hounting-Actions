@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "beedle": "^0.8.1",
     "phaser": "^3.52.0",
     "phaser3-rex-plugins": "^1.1.39"
   },

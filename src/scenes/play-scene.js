@@ -1,6 +1,7 @@
 import { Scene } from 'phaser'
 import Floor from '../utils/floor'
 import Wall from '../utils/wall'
+import store from '../store'
 
 export default class PlayScene extends Scene {
   constructor () {
@@ -17,6 +18,7 @@ export default class PlayScene extends Scene {
   }
   async create () {
     console.log('play scene created')
+    store.dispatch('showNotification', 'GET a broken bottle')
 
     this.cameras.main.setZoom(0.6)
     const shadow = this.add.image(this.centerX, this.centerY + 900, 'tile-shadow').setOrigin(0.5, 1).setDepth(0.1)
