@@ -92,7 +92,6 @@ const actions = {
       itemElement.dataset.status = 'empty'
       context.state.items[index] = null
       itemElement.dataset.name = ''
-      context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
       const playScene = game.scene.keys['PlayScene']
       if (outputItem.id === 'little-monster-umbrella') {
         playScene.littleMonster.setTexture(outputItem.id)
@@ -111,6 +110,8 @@ const actions = {
             message: 'YOU WIN!!!',
             callback: () => { context.dispatch('restart') }
           })
+        } else {
+          context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
         }
       }
     } else {
