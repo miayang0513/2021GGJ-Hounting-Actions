@@ -50,6 +50,9 @@ export default class PlayScene extends Scene {
     this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
     this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3 }).setOrigin(0.5, 1)
     this.nail.setInteractive().on('pointerdown', () => {
+      if (!store.state.items.includes('ladder')) {
+        return
+      }
       this.nail.setTexture('rope')
       this.Character_instance.setFloor(this.secondFloor, 5, 2, false)
       this.tweens.add({
@@ -58,6 +61,7 @@ export default class PlayScene extends Scene {
         delay: 500,
         duration: 2000,
       })
+      store.dispatch('useItem', { in: 'ladder', out: 'climb' })
     })
 
     this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
