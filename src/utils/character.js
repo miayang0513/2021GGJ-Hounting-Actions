@@ -119,7 +119,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
             character.state = 'idle'
             this.playAnim()
             if (targetTile.hasOwnProperty('item')) {
-              store.dispatch('makeItemJitter', targetTile.id)
+              store.dispatch('makeItemJitter', targetTile.item.id)
             } else if (targetTile.objType === 'monster') {
               store.dispatch('makeItemJitter', targetTile.id)
             } else if (targetTile.hasOwnProperty('wall')) {
