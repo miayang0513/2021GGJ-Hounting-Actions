@@ -28,7 +28,7 @@
       "availableItems": [
         {
           "in": "rope",
-          "out": "repo-ladder"
+          "out": "ladder"
         },
         {
           "in": "umbrella",
@@ -133,7 +133,7 @@
     },
     {
       "id": "short-rope",
-      "name": "short rope"
+      "name": "short-rope"
     },
     {
       "id": "ladder",
@@ -145,15 +145,15 @@
     },
     {
       "id": "wine-bottle",
-      "name": "wine bottle"
+      "name": "wine-bottle"
     },
     {
       "id": "broken-wine-bottle",
-      "name": "broken wine bottle"
+      "name": "broken-wine-bottle"
     },
     {
       "id": "clean-gem",
-      "name": "clean gem"
+      "name": "clean-gem"
     },
     {
       "id": "gem",
@@ -165,11 +165,11 @@
     },
     {
       "id": "umbrella-stand",
-      "name": "umbrella stand"
+      "name": "umbrella-stand"
     },
     {
       "id": "umbrella-cloth",
-      "name": "umbrella cloth"
+      "name": "umbrella-cloth"
     }
   ]
 }

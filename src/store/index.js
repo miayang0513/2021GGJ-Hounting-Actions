@@ -114,7 +114,7 @@ const actions = {
       // 獲得新物品的事件
       outputItem = itemJson.portable.find(item => item.id === inOutTable.out)
       itemElement.dataset.status = 'exist'
-      itemElement.dataset.name = outputItem.id
+      itemElement.dataset.name = outputItem.name
       context.state.items[index] = outputItem.id
       context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
     }
