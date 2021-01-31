@@ -73,5 +73,6 @@ export default class BootScene extends Scene {
     graphics.fillRect(0, 0, this.sys.scale.width / 0.6, this.sys.scale.height / 0.6)
 
     this.scene.launch('PlayScene')
+    this.scene.launch('AudioScene')
   }
 }

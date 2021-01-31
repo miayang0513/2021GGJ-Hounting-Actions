@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import BootScene from './scenes/boot-scene.js'
 import PlayScene from './scenes/play-scene.js'
+import AudioScene from './scenes/audio-scene.js'
 import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin'
 
 
@@ -15,7 +16,7 @@ const game = new Phaser.Game({
   },
   parent: 'game-container',
   backgroundColor: '#000000',
-  scene: [BootScene, PlayScene],
+  scene: [BootScene, AudioScene, PlayScene],
   input: { windowEvents: false },
   plugins: {
     scene: [

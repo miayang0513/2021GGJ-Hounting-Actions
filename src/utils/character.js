@@ -102,6 +102,9 @@ export default class Character extends Phaser.GameObjects.Sprite {
         },
         onStartParams: [tilePath[i].depth, this],
         onComplete: (tween, targets, character) => {
+          // audio
+          this.scene.scene.get('AudioScene').walkAudio.play()
+
           console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
           store.dispatch('walk')
           if (i === tilePath.length - 1) {
