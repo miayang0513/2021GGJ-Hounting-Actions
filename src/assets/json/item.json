@@ -6,23 +6,19 @@
       "availableItems": [
         {
           "in": "rope",
-          "out": "short-rope",
-          "message": "GET a short rope"
+          "out": "short-rope"
         },
         {
           "in": "necklace",
-          "out": "gem",
-          "message": ""
+          "out": "gem"
         },
         {
           "in": "umbrella",
-          "out": "umbrella-stand",
-          "message": ""
+          "out": "umbrella-stand"
         },
         {
           "in": "wine-bottle",
-          "out": "broken-wine-bottle",
-          "message": ""
+          "out": "broken-wine-bottle"
         }
       ]
     },
@@ -32,24 +28,66 @@
       "availableItems": [
         {
           "in": "rope",
-          "out": "repo-ladder",
-          "message": ""
+          "out": "repo-ladder"
         },
         {
           "in": "umbrella",
-          "out": "umbrella-stand",
-          "message": ""
+          "out": "umbrella-stand"
         },
         {
           "in": "wine-bottle",
-          "out": "clean-table",
-          "message": ""
+          "out": "clean-table"
         }
       ]
     },
     {
       "id": "clean-table",
       "name": "clean table",
+      "availableItems": []
+    },
+    {
+      "id": "fake-door",
+      "name": "fake door",
+      "availableItems": []
+    },
+    {
+      "id": "groove",
+      "name": "groove",
+      "availableItems": [
+        {
+          "in": "gem",
+          "out": "groove-diamond"
+        }
+      ]
+    },
+    {
+      "id": "groove-diamond",
+      "name": "groove diamond",
+      "availableItems": []
+    },
+    {
+      "id": "curtain",
+      "name": "curtain",
+      "availableItems": [
+        {
+          "in": "gem",
+          "out": "clean-gem"
+        }
+      ]
+    },
+    {
+      "id": "reflection",
+      "name": "reflection",
+      "availableItems": [
+        {
+          "in": "clean-gem",
+          "out": "open-exit"
+        }
+      ]
+    },
+    {
+      "id": "exit",
+      "name": "exit",
       "availableItems": []
     }
   ],
