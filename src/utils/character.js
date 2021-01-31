@@ -85,11 +85,12 @@ export default class Character extends Phaser.GameObjects.Sprite {
         onStart: function (tween, targets, depth, character) { character.depth = depth + 50 },
         onStartParams: [tilePath[i].depth, this],
         onComplete: (tween, targets, character) => {
-          // console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
+          console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
           store.dispatch('walk')
           if (i === tilePath.length - 1) {
-            if (character.floor.floor === 2) {
+            if (character.floor.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
               character.setFloor(this.scene.firstFloor, targetTile.coordinateX, targetTile.coordinateY, false)
+              store.dispatch('gameOver')
             }
             character.state = 'idle'
             this.playAnim()
