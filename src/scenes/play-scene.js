@@ -4,6 +4,7 @@ import Wall from '../utils/wall'
 import Item from '../utils/item'
 import store from '../store'
 import Character from '../utils/character'
+import Monster from '../utils/monster'
 export default class PlayScene extends Scene {
   constructor () {
     super({ key: 'PlayScene' })
@@ -40,10 +41,14 @@ export default class PlayScene extends Scene {
     this.curtain = new Item(this, 'curtain', 'wall', { depth: 560, x: this.centerX - 192 * 0.8, y: this.centerY - 192 * 1.2 }).setOrigin(0.5, 1)
     this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
     this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3 }).setOrigin(0.5, 1)
-    this.fakeDoor = new Item(this, 'fake-door', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)
-    this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1).setVisible(true)
-    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'open-exit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
+    this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
+    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
     this.createAnim('openExitAnim', 'exit', 'open-exit', 18)
+    this.fakeDoor = new Item(this, 'fake-door', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)
+    this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1).setVisible(false)
+    this.littleMonster = new Item(this, 'little-monster', 'ground', { column: 3, row: 1, floor: 2 }).setOrigin(0.5, 1) 
+
+    this.bigMonster = new Monster(this, this.centerX+192*3.7, this.centerY+192*1.4).setOrigin(0.5, 1)
 
     this.mountDragEvent()
     this.mountWheelEvent()

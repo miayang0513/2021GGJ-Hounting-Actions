@@ -6,7 +6,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
   constructor (scene, x, y, texture, options) {
 
-    super(scene, x, y, texture,)
+    super(scene, x, y, texture)
 
     scene.add.existing(this)
 
