@@ -49,8 +49,36 @@ export default class PlayScene extends Scene {
     this.mountWheelEvent()
 
     // ↓這個方法可以直接設定玩家的樓層↓
-    this.Character_instance.setFloor(this.firstFloor, 40, true)
+    this.Character_instance.setFloor(this.firstFloor, 4, 4, true)
+
+    // ↓把會死的第二層設定出來↓
+    this.setFallRange()
   }
+
+  setFallRange () {
+
+    var searchTiles = this.firstFloor.getChildren()
+    var tTiles = [searchTiles[7], searchTiles[16], searchTiles[25]]
+    for (let index = 27; index < 35; index++) { tTiles.push(searchTiles[index]) }
+    var addTiles = []
+    for (let i = 0; i < tTiles.length; i++) {
+      const element = tTiles[i]
+      var newInstance = element.copy()
+      newInstance.setInvisible()
+      newInstance.acceptable = true
+      newInstance.pathfinder = this.secondFloor.pathfinder
+      addTiles.push({
+        tile: newInstance,
+        x: newInstance.coordinateX,
+        y: newInstance.coordinateY,
+        floor: this.secondFloor
+      })
+    }
+
+    this.secondFloor.addTiles(addTiles)
+    this.secondFloor.setInteractable(false)
+  }
+
   mountDragEvent () {
     const pinch = this.rexGestures.add.pinch()
     const camera = this.cameras.main
@@ -79,7 +107,7 @@ export default class PlayScene extends Scene {
     }
     var spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
     if (Phaser.Input.Keyboard.JustDown(spacebar)) {
-      this.Character_instance.setFloor(this.secondFloor, 5, false)
+      this.Character_instance.setFloor(this.secondFloor, 5, 2, false)
     }
   }
   createAnim (key, name, atlas, endFrame) {
