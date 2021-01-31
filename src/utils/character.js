@@ -84,8 +84,12 @@ export default class Character extends Phaser.GameObjects.Sprite {
         yoyo: false,
         onStart: (tween, targets, depth, character) => {
           character.depth = depth + 50
-          if (store.state.items.includes('umbrella')) {
-            this.play('umbrella')
+          if (i === tilePath.length - 1) {
+            if (character.floor.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
+              if (store.state.items.includes('umbrella')) {
+                this.play('umbrella')
+              }
+            }
           }
         },
         onStartParams: [tilePath[i].depth, this],
