@@ -2,17 +2,18 @@ import Phaser from 'phaser'
 
 export default class Monster extends Phaser.GameObjects.Sprite {
 
-  constructor (scene, x, y) {
+  constructor (scene, x, y, coordinateX, coordinateY) {
     super(scene, x, y)
     scene.add.existing(this)
 
     this.originPos = { x: x, y: y }
     this.id = 'big-monster'
+    this.objType = 'monster'
 
     this.setTexture('big-monster').setFrame('big_idle.png').setDepth(this.y + 120)
     this.generateAnim('big_walk', 'big_walk', 0, 1, -1)
-    this.generateAnim('big_back' ,'big_back', 0, 1, -1)
-    
+    this.generateAnim('big_back', 'big_back', 0, 1, -1)
+
     // indicator
     this.indicator = scene.add.image(this.x, this.y - this.height, 'itemIndicator').setOrigin(0.5, 1).setDepth(this.depth).setVisible(false)
     this.tween = this.scene.tweens.add({
@@ -24,9 +25,29 @@ export default class Monster extends Phaser.GameObjects.Sprite {
       repeat: -1,
       yoyo: true
     })
-
+    this.coordinateX = coordinateX
+    this.coordinateY = coordinateY
     const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === 8 && tile.coordinateY === 0)
     tile.monster = this
+    this.pathselecting = false
+    this.setInteractive()
+      .on('pointerdown', () => {
+        this.CheckPosition()
+      })
+  }
+
+  CheckPosition () {
+    console.log('check', this.scene.Character_instance)
+    if (this.pathselecting == false) {
+      this.pathselecting = true
+      this.scene.Character_instance.floor.pathfinder.Find(this, function () { })
+      return
+    }
+    else {
+      this.scene.Character_instance.floor.pathfinder.Find(this, (tilePath) => {
+        this.scene.Character_instance.CharacterEvent.emit('moveCharacter_bypath', { tilePath, targetTile: this })
+      })
+    }
   }
 
   walkToDrinkBeer () {

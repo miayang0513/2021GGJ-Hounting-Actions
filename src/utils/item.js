@@ -11,6 +11,7 @@ export default class Item extends Phaser.GameObjects.Image {
     this.setTexture(this.id)
     this.coordinateX = null
     this.coordinateY = null
+    this.objType = 'item'
 
     if (this.place === 'ground') {
       this.placeItemOnGround(config)
@@ -78,6 +79,7 @@ export default class Item extends Phaser.GameObjects.Image {
   }
 
   CheckPosition () {
+    console.log('check', this.scene.Character_instance)
     if (this.pathselecting == false) {
       this.pathselecting = true
       this.scene.Character_instance.floor.pathfinder.Find(this, function () { })

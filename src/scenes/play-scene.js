@@ -71,7 +71,7 @@ export default class PlayScene extends Scene {
     this.point = new Item(this, 'point', 'ground', { column: 4, row: 6, floor: 1 }).setOrigin(0.5, 1).setTexture('tile-empty')
     this.littleMonster = new Item(this, 'little-monster', 'ground', { column: 3, row: 1, floor: 2 }).setOrigin(0.5, 1)
 
-    this.bigMonster = new Monster(this, this.centerX + 192 * 3.7, this.centerY + 192 * 1.4).setOrigin(0.5, 1)
+    this.bigMonster = new Monster(this, this.centerX + 192 * 3.7, this.centerY + 192 * 1.4, 8, 0).setOrigin(0.5, 1)
 
     this.exit.play('openExitAnim')
 
