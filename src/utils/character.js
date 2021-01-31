@@ -16,6 +16,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.direction = 'left_front'
     this.floor = null //用來處理
     this.setOrigin(0.5, 1)
+    this.count = 0
 
     this.generateAnim('left_back_idle', 'left_back', 0, 0, 0)
     this.generateAnim('left_back_walk', 'left_back', 1, 2, -1)
@@ -49,6 +50,13 @@ export default class Character extends Phaser.GameObjects.Sprite {
   }
 
   _move_path ({ tilePath, targetTile }) {
+    if (this.scene.bigMonster.alpha === 0) {
+      this.count++
+      if (this.count === 3) {
+        this.count = 0
+        this.scene.bigMonster.walkBack()
+      }
+    }
     this.state = 'walk'
     store.dispatch('cancelItemJitter')
     var _tweens = []
