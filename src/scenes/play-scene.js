@@ -64,6 +64,7 @@ export default class PlayScene extends Scene {
     this.createAnim('openExitAnim', 'exit', 'open-exit', 18)
     this.fakeDoor = new Item(this, 'fake-door', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)
     this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1).setVisible(false)
+    this.point = new Item(this, 'point', 'ground', { column: 4, row: 6, floor: 1 }).setOrigin(0.5, 1).setTexture('tile-empty')
     this.littleMonster = new Item(this, 'little-monster', 'ground', { column: 3, row: 1, floor: 2 }).setOrigin(0.5, 1)
 
     this.bigMonster = new Monster(this, this.centerX + 192 * 3.7, this.centerY + 192 * 1.4).setOrigin(0.5, 1)
@@ -72,7 +73,7 @@ export default class PlayScene extends Scene {
     this.mountWheelEvent()
   }
 
-setFallRange () {
+  setFallRange () {
 
     var searchTiles = this.firstFloor.getChildren()
     var tTiles = [searchTiles[7], searchTiles[16], searchTiles[25]]

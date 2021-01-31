@@ -104,6 +104,9 @@ const actions = {
         playScene.table.setTexture(outputItem.id)
       } else if (outputItem.id === 'groove-diamond') {
         playScene.groove.setTexture(outputItem.id)
+      } else if (outputItem.id === 'reflection') {
+        playScene.reflection.setVisible(true)
+        playScene.point.setVisible(false)
       }
     } else {
       // 獲得新物品的事件
@@ -121,7 +124,7 @@ const mutations = {}
 const initialState = {
   name: 'SNOW',
   stamina: INIT_STAMINA,
-  items: ['rope', 'necklace', 'umbrella', 'wine-bottle'],
+  items: ['rope', 'clean-gem', 'umbrella', 'wine-bottle'],
 }
 
 export default new Store({
