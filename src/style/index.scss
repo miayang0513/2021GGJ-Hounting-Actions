@@ -99,7 +99,6 @@ body {
       }
     }
     &[data-status="exist"] {
-      background-image: url("../assets/images/client/gem.png");
     }
     &[data-status="empty"] {
       opacity: 0.4;
@@ -115,6 +114,39 @@ body {
       font-size: 12px;
       line-height: 20px;
       white-space: nowrap;
+    }
+    &[data-name="rope"] {
+      background-image: url("../assets/images/client/rope.png");
+    }
+    &[data-name="gem"] {
+      background-image: url("../assets/images/client/gem.png");
+    }
+    &[data-name="clean-gem"] {
+      background-image: url("../assets/images/client/clean-gem.png");
+    }
+    &[data-name="necklace"] {
+      background-image: url("../assets/images/client/necklace.png");
+    }
+    &[data-name="broken-wine-bottle"] {
+      background-image: url("../assets/images/client/broken-wine-bottle.png");
+    }
+    &[data-name="ladder"] {
+      background-image: url("../assets/images/client/ladder.png");
+    }
+    &[data-name="short-rope"] {
+      background-image: url("../assets/images/client/short-rope.png");
+    }
+    &[data-name="umbrella-cloth"] {
+      background-image: url("../assets/images/client/umbrella-cloth.png");
+    }
+    &[data-name="umbrella-stand"] {
+      background-image: url("../assets/images/client/umbrella-stand.png");
+    }
+    &[data-name="umbrella"] {
+      background-image: url("../assets/images/client/umbrella.png");
+    }
+    &[data-name="wine-bottle"] {
+      background-image: url("../assets/images/client/wine-bottle.png");
     }
   }
 }
