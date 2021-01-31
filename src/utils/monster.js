@@ -7,11 +7,14 @@ export default class Monster extends Phaser.GameObjects.Sprite {
     scene.add.existing(this)
 
     this.originPos = { x: x, y: y }
+    this.id = 'big-monster'
 
     this.setTexture('big-monster').setFrame('big_idle.png').setDepth(this.y + 120)
     this.generateAnim('big_walk', 'big_walk', 0, 1, -1)
-    this.generateAnim('big_back' ,'big_back', 0, 1, -1)
-    
+    this.generateAnim('big_back', 'big_back', 0, 1, -1)
+
+    const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === 8 && tile.coordinateY === 0)
+    tile.monster = this
   }
 
   walkToDrinkBeer () {
@@ -49,7 +52,7 @@ export default class Monster extends Phaser.GameObjects.Sprite {
     const config = {
       key: key,
       frames: this.scene.anims.generateFrameNames(this.texture.key, {
-        prefix: posName+ '_',
+        prefix: posName + '_',
         suffix: '.png',
         start: startFrame,
         end: endFrame,

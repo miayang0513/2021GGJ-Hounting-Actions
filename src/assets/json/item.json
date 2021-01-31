@@ -104,6 +104,16 @@
       "id": "little-monster-umbrella",
       "name": "little monster umbrella",
       "availableItems": []
+    },
+    {
+      "id": "big-monster",
+      "name": "big monster",
+      "availableItems": [
+        {
+          "in": "wine-bottle",
+          "out": "win"
+        }
+      ]
     }
   ],
   "portable": [

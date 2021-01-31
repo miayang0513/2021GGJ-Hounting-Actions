@@ -67,7 +67,6 @@ export default class Item extends Phaser.GameObjects.Image {
         tile.wall = this
       } else {
         const tile = this.scene.secondFloor.getChildren().find(tile => tile.coordinateX === this.coordinateX && tile.coordinateY === this.coordinateY)
-        console.log(tile)
         tile.wall = this
       }
       this.setInteractive()

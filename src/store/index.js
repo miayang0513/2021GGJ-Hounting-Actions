@@ -20,7 +20,10 @@ const actions = {
     document.querySelector('body')?.prepend(notificationElement)
   },
   makeItemJitter (context, itemId) {
+    console.log(itemId)
+    
     const availableItems = itemJson.fixed.find(item => item.id === itemId)?.availableItems
+    console.log(availableItems)
     const statusList = context.state.items.map(itemId => {
       if (itemId === null) {
         return 'empty'
@@ -74,6 +77,14 @@ const actions = {
   useItem (context, inOutTable) {
     const index = context.state.items.findIndex(itemId => itemId === inOutTable.in)
     const itemElement = document.querySelector('.baggage')?.children[index]
+    if (inOutTable.out === 'win') {
+      const playScene = game.scene.keys['PlayScene']
+      context.state.items[index] = null
+      itemElement.dataset.name = ''
+      console.log(playScene)
+      playScene.bigMonster.walkToDrinkBeer()
+      return
+    }
 
     let outputItem = itemJson.fixed.find(item => item.id === inOutTable.out)
     if (outputItem) {

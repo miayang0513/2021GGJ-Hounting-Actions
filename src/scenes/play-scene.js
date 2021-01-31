@@ -47,7 +47,7 @@ export default class PlayScene extends Scene {
     this.window = new Item(this, 'window', 'wall', { depth: 1000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
     this.groove = new Item(this, 'groove', 'wall', { depth: 1000, x: this.centerX + 192 * 2.25, y: this.centerY - 192, column: 5, row: 1, floor: 2 }).setOrigin(0.5, 1)
     this.curtain = new Item(this, 'curtain', 'wall', { depth: 560, x: this.centerX - 192 * 0.8, y: this.centerY - 192 * 1.2, column: 1, row: 2, floor: 2 }).setOrigin(0.5, 1)
-    this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2, column: 3, row: 1 }).setOrigin(0.5, 1)
+    this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
     this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3 }).setOrigin(0.5, 1)
     this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
     this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
@@ -62,7 +62,7 @@ export default class PlayScene extends Scene {
     this.mountWheelEvent()
   }
 
-  setFallRange () {
+setFallRange () {
 
     var searchTiles = this.firstFloor.getChildren()
     var tTiles = [searchTiles[7], searchTiles[16], searchTiles[25]]
