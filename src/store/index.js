@@ -108,6 +108,20 @@ const actions = {
       } else if (outputItem.id === 'reflection') {
         playScene.reflection.setVisible(true)
         playScene.point.setVisible(false)
+
+        if (playScene.bigMonster.alpha === 0) {
+          playScene.exit.setVisible(true)
+          playScene.exit.play('openExitAnim')
+          context.dispatch('showNotification', {
+            message: 'YOU WIN!!!',
+            callback: () => {
+              playScene.scene.restart()
+              context.state.stamina = INIT_STAMINA
+              context.state.items = INIT_ITEMS
+              document.querySelector('.role-status__stamina').innerHTML = `STAMINA: ${context.state.stamina}`
+            }
+          })
+        }
       }
     } else {
       // 獲得新物品的事件

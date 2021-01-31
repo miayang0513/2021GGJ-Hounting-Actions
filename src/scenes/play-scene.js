@@ -73,6 +73,8 @@ export default class PlayScene extends Scene {
 
     this.bigMonster = new Monster(this, this.centerX + 192 * 3.7, this.centerY + 192 * 1.4).setOrigin(0.5, 1)
 
+    this.exit.play('openExitAnim')
+
     this.mountDragEvent()
     this.mountWheelEvent()
   }
