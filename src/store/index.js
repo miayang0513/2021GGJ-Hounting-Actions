@@ -2,7 +2,8 @@ import Store from 'beedle'
 import game from '../main'
 import itemJson from '../assets/json/item.json'
 
-const INIT_STAMINA = 30
+const INIT_STAMINA = 60
+const INIT_ITEMS = ['rope', 'necklace', 'umbrella', 'wine-bottle']
 
 const actions = {
   showNotification (context, { message, callback = null }) {
@@ -67,6 +68,7 @@ const actions = {
       callback: () => {
         playScene.scene.restart()
         context.state.stamina = INIT_STAMINA
+        context.state.items = INIT_ITEMS
         document.querySelector('.role-status__stamina').innerHTML = `STAMINA: ${context.state.stamina}`
       }
     })
@@ -111,7 +113,7 @@ const actions = {
       // 獲得新物品的事件
       outputItem = itemJson.portable.find(item => item.id === inOutTable.out)
       itemElement.dataset.status = 'exist'
-      itemElement.dataset.name = outputItem.name
+      itemElement.dataset.name = outputItem.id
       context.state.items[index] = outputItem.id
       context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
     }
@@ -123,7 +125,7 @@ const mutations = {}
 const initialState = {
   name: 'SNOW',
   stamina: INIT_STAMINA,
-  items: ['rope', 'clean-gem', 'umbrella', 'wine-bottle'],
+  items: INIT_ITEMS,
 }
 
 export default new Store({
