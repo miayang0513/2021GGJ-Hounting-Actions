@@ -16,6 +16,7 @@ const game = new Phaser.Game({
   parent: 'game-container',
   backgroundColor: '#000000',
   scene: [BootScene, PlayScene],
+  input: { windowEvents: false },
   plugins: {
     scene: [
       {
