@@ -65,12 +65,7 @@ const actions = {
     playScene.scene.pause()
     context.dispatch('showNotification', {
       message: 'YOU FAILED',
-      callback: () => {
-        playScene.scene.restart()
-        context.state.stamina = INIT_STAMINA
-        context.state.items = INIT_ITEMS
-        document.querySelector('.role-status__stamina').innerHTML = `STAMINA: ${context.state.stamina}`
-      }
+      callback: () => { context.dispatch('restart') }
     })
   },
   useItem (context, inOutTable) {
@@ -114,12 +109,7 @@ const actions = {
           playScene.exit.play('openExitAnim')
           context.dispatch('showNotification', {
             message: 'YOU WIN!!!',
-            callback: () => {
-              playScene.scene.restart()
-              context.state.stamina = INIT_STAMINA
-              context.state.items = INIT_ITEMS
-              document.querySelector('.role-status__stamina').innerHTML = `STAMINA: ${context.state.stamina}`
-            }
+            callback: () => { context.dispatch('restart') }
           })
         }
       }
@@ -131,6 +121,19 @@ const actions = {
       context.state.items[index] = outputItem.id
       context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
     }
+  },
+  restart (context) {
+    const playScene = game.scene.keys['PlayScene']
+    playScene.scene.restart()
+    context.state.stamina = INIT_STAMINA
+    context.state.items = [...INIT_ITEMS]
+    document.querySelector('.role-status__stamina').innerHTML = `STAMINA: ${context.state.stamina}`
+    const baggageElement = document.querySelector('.baggage')
+    for (let i = 0; i < baggageElement.children.length; i++) {
+      const element = baggageElement.children[i]
+      element.dataset.status = 'exist'
+      element.dataset.name = INIT_ITEMS[i]
+    }
   }
 }
 
@@ -139,7 +142,7 @@ const mutations = {}
 const initialState = {
   name: 'SNOW',
   stamina: INIT_STAMINA,
-  items: INIT_ITEMS,
+  items: [...INIT_ITEMS],
 }
 
 export default new Store({
