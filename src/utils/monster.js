@@ -14,9 +14,8 @@ export default class Monster extends Phaser.GameObjects.Sprite {
     this.generateAnim('big_back' ,'big_back', 0, 1, -1)
     
     // indicator
-    this.indicator = scene.add.image(this.x, this.y - this.height, 'itemIndicator').setOrigin(0.5, 1).setDepth(this.depth).setVisible(false)
+    this.indicator = scene.add.image(this.x, this.y - this.height, 'itemIndicator').setOrigin(0.5, 1).setDepth(this.depth)
     this.tween = this.scene.tweens.add({
-      paused: true,
       targets: this.indicator,
       ease: 'Power2',
       y: '+=24',
@@ -30,6 +29,7 @@ export default class Monster extends Phaser.GameObjects.Sprite {
   }
 
   walkToDrinkBeer () {
+    this.showIndicator(false)
     this.setFrame('big_beer.png')
     setTimeout(() => {
       this.play('big_walk')
