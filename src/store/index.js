@@ -97,6 +97,7 @@ const actions = {
       itemElement.dataset.name = ''
       context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
       const playScene = game.scene.keys['PlayScene']
+      console.log(playScene)
       if (outputItem.id === 'little-monster-umbrella') {
         playScene.littleMonster.setTexture(outputItem.id)
       } else if (outputItem.id === 'clean-table') {
