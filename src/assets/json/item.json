@@ -114,6 +114,16 @@
           "out": "win"
         }
       ]
+    },
+    {
+      "id": "point",
+      "name": "pointer",
+      "availableItems": [
+        {
+          "in": "clean-gem",
+          "out": "reflection"
+        }
+      ]
     }
   ],
   "portable": [
