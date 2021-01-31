@@ -5,8 +5,6 @@ import tileShadow from '../assets/images/tile-shadow.png'
 import tileEmpty from '../assets/images/tile-empty.png'
 import wall from '../assets/images/wall.png'
 
-import character_png from '../assets/animations/senior-walk.png'
-import character_an from '../assets/animations/senior-walk.json'
 import openExitPng from '../assets/animations/open-exit.png'
 import openExitJson from '../assets/animations/open-exit.json'
 import characterPng from '../assets/animations/character.png'
@@ -30,7 +28,7 @@ import borderRec from '../assets/images/border-rec.png'
 import itemIndicator from '../assets/images/item-indicator.png'
 import littleMonster from '../assets/images/little-monster.png'
 import littleMonsterUmbrella from '../assets/images/little-monster_umbrella.png'
-
+import cleanTable from '../assets/images/clean-table.png'
 
 export default class BootScene extends Scene {
   constructor () {
@@ -65,6 +63,7 @@ export default class BootScene extends Scene {
     this.load.image('itemIndicator', itemIndicator)
     this.load.image('little-monster', littleMonster)
     this.load.image('little-monster-umbrella', littleMonsterUmbrella)
+    this.load.image('clean-table', cleanTable)
   }
   async create () {
     console.log('boot scene created')

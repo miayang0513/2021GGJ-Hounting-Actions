@@ -11,13 +11,25 @@ export default class Monster extends Phaser.GameObjects.Sprite {
 
     this.setTexture('big-monster').setFrame('big_idle.png').setDepth(this.y + 120)
     this.generateAnim('big_walk', 'big_walk', 0, 1, -1)
-    this.generateAnim('big_back', 'big_back', 0, 1, -1)
+    this.generateAnim('big_back' ,'big_back', 0, 1, -1)
+    
+    // indicator
+    this.indicator = scene.add.image(this.x, this.y - this.height, 'itemIndicator').setOrigin(0.5, 1).setDepth(this.depth)
+    this.tween = this.scene.tweens.add({
+      targets: this.indicator,
+      ease: 'Power2',
+      y: '+=24',
+      duration: 1000,
+      repeat: -1,
+      yoyo: true
+    })
 
     const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === 8 && tile.coordinateY === 0)
     tile.monster = this
   }
 
   walkToDrinkBeer () {
+    this.showIndicator(false)
     this.setFrame('big_beer.png')
     setTimeout(() => {
       this.play('big_walk')
@@ -61,6 +73,16 @@ export default class Monster extends Phaser.GameObjects.Sprite {
       repeat: repeat
     }
     this.scene.anims.create(config)
+  }
+
+  showIndicator (bool) {
+    if (bool) {
+      this.indicator.setVisible(true)
+      this.tween.play()
+    } else {
+      this.indicator.setVisible(false)
+      this.tween.pause()
+    }
   }
 
 }
