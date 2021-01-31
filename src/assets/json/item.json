@@ -89,6 +89,21 @@
       "id": "exit",
       "name": "exit",
       "availableItems": []
+    },
+    {
+      "id": "little-monster",
+      "name": "little monster",
+      "availableItems": [
+        {
+          "in": "umbrella",
+          "out": "little-monster-umbrella"
+        }
+      ]
+    },
+    {
+      "id": "little-monster-umbrella",
+      "name": "little monster umbrella",
+      "availableItems": []
     }
   ],
   "portable": [

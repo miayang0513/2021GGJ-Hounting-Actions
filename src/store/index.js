@@ -83,7 +83,12 @@ const actions = {
       itemElement.dataset.name = ''
       context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
       const playScene = game.scene.keys['PlayScene']
-      playScene.table.setTexture(outputItem.id)
+      console.log(outputItem.id)
+      if (outputItem.id === 'little-monster-umbrella') {
+        playScene.littleMonster.setTexture(outputItem.id)
+      } else if (outputItem.id === 'table') {
+        playScene.table.setTexture(outputItem.id)
+      }
     } else {
       // 獲得新物品的事件
       outputItem = itemJson.portable.find(item => item.id === inOutTable.out)
