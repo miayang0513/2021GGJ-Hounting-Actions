@@ -25,7 +25,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.generateAnim('right_back_walk', 'right_back', 1, 2, -1)
     this.generateAnim('right_front_idle', 'right_front', 0, 0, 0)
     this.generateAnim('right_front_walk', 'right_front', 1, 2, -1)
-    // this.generateAnim('umbrella_walk', 'umbrella', 1, 2, -1)
+    this.generateAnim('umbrella', 'umbrella', 0, 1, 2)
     this.generateAnim('climb_walk', 'climb', 0, 2, -1)
     this.playAnim()
     this.floor = null
@@ -82,7 +82,12 @@ export default class Character extends Phaser.GameObjects.Sprite {
         ease: 'Expo',
         easeParams: [],
         yoyo: false,
-        onStart: function (tween, targets, depth, character) { character.depth = depth + 50 },
+        onStart: (tween, targets, depth, character) => {
+          character.depth = depth + 50
+          if (store.state.items.includes('umbrella')) {
+            this.play('umbrella')
+          }
+        },
         onStartParams: [tilePath[i].depth, this],
         onComplete: (tween, targets, character) => {
           console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
@@ -98,7 +103,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
             }
             character.state = 'idle'
             this.playAnim()
-            console.log(targetTile)
             if (targetTile.hasOwnProperty('item')) {
               store.dispatch('makeItemJitter', targetTile.item.id)
             }
