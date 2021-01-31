@@ -76,7 +76,7 @@ const actions = {
   useItem (context, inOutTable) {
     const index = context.state.items.findIndex(itemId => itemId === inOutTable.in)
     const itemElement = document.querySelector('.baggage')?.children[index]
-    if (inOutTable.out === 'safe') {
+    if (inOutTable.out === 'safe' || inOutTable.out === 'climb') {
       itemElement.dataset.status = 'empty'
       context.state.items[index] = null
       itemElement.dataset.name = ''
@@ -99,7 +99,6 @@ const actions = {
       itemElement.dataset.name = ''
       context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
       const playScene = game.scene.keys['PlayScene']
-      console.log(playScene)
       if (outputItem.id === 'little-monster-umbrella') {
         playScene.littleMonster.setTexture(outputItem.id)
       } else if (outputItem.id === 'clean-table') {
