@@ -64,7 +64,7 @@ export default class BootScene extends Scene {
     this.load.image('borderRec', borderRec)
     this.load.image('itemIndicator', itemIndicator)
     this.load.image('little-monster', littleMonster)
-    this.load.image('little-monsterU-umbrella', littleMonsterUmbrella)
+    this.load.image('little-monster-umbrella', littleMonsterUmbrella)
   }
   async create () {
     console.log('boot scene created')

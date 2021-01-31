@@ -30,34 +30,36 @@ export default class PlayScene extends Scene {
       depth: 0
     }).setOrigin(0.5, 1)
 
+
+
     var firstFloor_collider = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
     this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 }, { colliders: firstFloor_collider, pathfinder: this.Pathfinding, character: this.Character_instance })
     this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 }, { acceptable: [], pathfinder: this.Pathfinding, character: this.Character_instance })
-    // item setting
-    this.pliers = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
-    this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
-    this.window = new Item(this, 'window', 'wall', { depth: 1000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
-    this.groove = new Item(this, 'groove', 'wall', { depth: 1000, x: this.centerX + 192 * 2.25, y: this.centerY - 192 }).setOrigin(0.5, 1)
-    this.curtain = new Item(this, 'curtain', 'wall', { depth: 560, x: this.centerX - 192 * 0.8, y: this.centerY - 192 * 1.2 }).setOrigin(0.5, 1)
-    this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
-    this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3 }).setOrigin(0.5, 1)
-    this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
-    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
-    this.createAnim('openExitAnim', 'exit', 'open-exit', 18)
-    this.fakeDoor = new Item(this, 'fake-door', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)
-    this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1).setVisible(false)
-    this.littleMonster = new Item(this, 'little-monster', 'ground', { column: 3, row: 1, floor: 2 }).setOrigin(0.5, 1) 
-
-    this.bigMonster = new Monster(this, this.centerX+192*3.7, this.centerY+192*1.4).setOrigin(0.5, 1)
-
-    this.mountDragEvent()
-    this.mountWheelEvent()
 
     // ↓這個方法可以直接設定玩家的樓層↓
     this.Character_instance.setFloor(this.firstFloor, 4, 4, true)
 
     // ↓把會死的第二層設定出來↓
     this.setFallRange()
+    // item setting
+    this.pliers = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
+    this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
+    this.window = new Item(this, 'window', 'wall', { depth: 1000, x: this.centerX - 192 * 1.5, y: this.centerY + 400 }).setOrigin(0.5, 1)
+    this.groove = new Item(this, 'groove', 'wall', { depth: 1000, x: this.centerX + 192 * 2.25, y: this.centerY - 192, column: 5, row: 1 }).setOrigin(0.5, 1)
+    this.curtain = new Item(this, 'curtain', 'wall', { depth: 560, x: this.centerX - 192 * 0.8, y: this.centerY - 192 * 1.2, column: 1, row: 2 }).setOrigin(0.5, 1)
+    this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2, column: 3, row: 1 }).setOrigin(0.5, 1)
+    this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3 }).setOrigin(0.5, 1)
+    this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
+    this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
+    this.createAnim('openExitAnim', 'exit', 'open-exit', 18)
+    this.fakeDoor = new Item(this, 'fake-door', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)
+    this.reflection = new Item(this, 'reflection', 'wall', { depth: 1000, x: this.centerX - 192 * 1.1, y: this.centerY + 192 * 1.5 }).setOrigin(0, 1).setVisible(false)
+    this.littleMonster = new Item(this, 'little-monster', 'ground', { column: 3, row: 1, floor: 2 }).setOrigin(0.5, 1)
+
+    this.bigMonster = new Monster(this, this.centerX + 192 * 3.7, this.centerY + 192 * 1.4).setOrigin(0.5, 1)
+
+    this.mountDragEvent()
+    this.mountWheelEvent()
   }
 
   setFallRange () {
