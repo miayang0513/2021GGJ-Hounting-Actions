@@ -11,6 +11,8 @@ import openExitPng from '../assets/animations/open-exit.png'
 import openExitJson from '../assets/animations/open-exit.json'
 import characterPng from '../assets/animations/character.png'
 import characterJson from '../assets/animations/character.json'
+import bigMonsterPng from '../assets/animations/big-monster.png'
+import bigMonsterJson from '../assets/animations/big-monster.json'
 
 import pliers from '../assets/images/pliers.png'
 import window from '../assets/images/window.png'
@@ -26,6 +28,9 @@ import reflection from '../assets/images/reflection.png'
 import dot from '../assets/images/dot.png'
 import borderRec from '../assets/images/border-rec.png'
 import itemIndicator from '../assets/images/item-indicator.png'
+import littleMonster from '../assets/images/little-monster.png'
+import littleMonsterUmbrella from '../assets/images/little-monster_umbrella.png'
+
 
 export default class BootScene extends Scene {
   constructor () {
@@ -41,7 +46,7 @@ export default class BootScene extends Scene {
     this.load.image('wall', wall)
 
     this.load.atlas('character', characterPng, characterJson)
-    this.load.atlas('character_atlas', character_png, character_an)
+    this.load.atlas('big-monster', bigMonsterPng, bigMonsterJson)
     this.load.atlas('open-exit', openExitPng, openExitJson)
 
     this.load.image('pliers', pliers)
@@ -58,6 +63,8 @@ export default class BootScene extends Scene {
     this.load.image('dot', dot)
     this.load.image('borderRec', borderRec)
     this.load.image('itemIndicator', itemIndicator)
+    this.load.image('little-monster', littleMonster)
+    this.load.image('little-monsterU-umbrella', littleMonsterUmbrella)
   }
   async create () {
     console.log('boot scene created')

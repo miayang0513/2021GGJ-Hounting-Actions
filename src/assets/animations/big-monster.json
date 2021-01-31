@@ -1,0 +1,60 @@
+{"frames": [
+
+{
+	"filename": "big_back_0.png",
+	"frame": {"x":1,"y":246,"w":213,"h":237},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":213,"h":237},
+	"sourceSize": {"w":213,"h":237}
+},
+{
+	"filename": "big_back_1.png",
+	"frame": {"x":1,"y":485,"w":213,"h":223},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":213,"h":223},
+	"sourceSize": {"w":213,"h":223}
+},
+{
+	"filename": "big_beer.png",
+	"frame": {"x":216,"y":240,"w":220,"h":228},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":220,"h":228},
+	"sourceSize": {"w":220,"h":228}
+},
+{
+	"filename": "big_idle.png",
+	"frame": {"x":216,"y":470,"w":220,"h":228},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":220,"h":228},
+	"sourceSize": {"w":220,"h":228}
+},
+{
+	"filename": "big_walk_0.png",
+	"frame": {"x":216,"y":1,"w":213,"h":237},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":213,"h":237},
+	"sourceSize": {"w":213,"h":237}
+},
+{
+	"filename": "big_walk_1.png",
+	"frame": {"x":1,"y":1,"w":213,"h":243},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":213,"h":243},
+	"sourceSize": {"w":213,"h":243}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "big-monster.png",
+	"format": "RGBA8888",
+	"size": {"w":437,"h":709},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:f15c490579990ff7841869e500e5f86a:621e0f2cf6c145b6a9856047c1eeb788:e1a5597ef41494315427560088d2f0be$"
+}
+}
