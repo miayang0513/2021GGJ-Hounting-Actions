@@ -86,8 +86,10 @@ const actions = {
       console.log(outputItem.id)
       if (outputItem.id === 'little-monster-umbrella') {
         playScene.littleMonster.setTexture(outputItem.id)
-      } else if (outputItem.id === 'table') {
+      } else if (outputItem.id === 'clean-table') {
         playScene.table.setTexture(outputItem.id)
+      } else if (outputItem.id === 'groove-diamond') {
+        playScene.groove.setTexture(outputItem.id)
       }
     } else {
       // 獲得新物品的事件

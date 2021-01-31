@@ -55,13 +55,21 @@ export default class Item extends Phaser.GameObjects.Image {
     this.setDepth(depth)
     this.setPosition(x, y)
   }
-  placeItemOnWall ({ depth, x, y, column = null, row = null }) {
+  placeItemOnWall ({ depth, x, y, column = null, row = null, floor }) {
     this.setDepth(depth)
     this.setPosition(x, y)
     if (column !== null && row !== null) {
       this.coordinateX = column - 1
       this.coordinateY = row - 1
       this.pathselecting = false
+      if (floor === 1) {
+        const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === this.coordinateX && tile.coordinateY === this.coordinateY)
+        tile.wall = this
+      } else {
+        const tile = this.scene.secondFloor.getChildren().find(tile => tile.coordinateX === this.coordinateX && tile.coordinateY === this.coordinateY)
+        console.log(tile)
+        tile.wall = this
+      }
       this.setInteractive()
         .on('pointerdown', () => {
           this.CheckPosition()
