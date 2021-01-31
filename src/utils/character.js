@@ -1,3 +1,4 @@
+import { TOP_LEFT } from 'easystarjs'
 import Phaser from 'phaser'
 import store from '../store'
 
@@ -25,30 +26,16 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.generateAnim('right_front_idle', 'right_front', 0, 0, 0)
     this.generateAnim('right_front_walk', 'right_front', 1, 2, -1)
     // this.generateAnim('umbrella_walk', 'umbrella', 1, 2, -1)
-    this.generateAnim('climb_walk', 'climb', 0, 2 , -1)
+    this.generateAnim('climb_walk', 'climb', 0, 2, -1)
     this.playAnim()
     this.floor = null
-
-    this.tileEvent = [{ x: 0, y: 0, floor: null, callback: () => { } }]
 
     this.CharacterEvent = new Phaser.Events.EventEmitter()
     this.CharacterEvent.on('moveCharacter_bytile', this._move_bytile, this)
     this.CharacterEvent.on('moveCharacter_bypath', this._move_path, this)
   }
 
-  traverse_event() {
-    //FIXME: 不管怎樣都會呼叫
-    for (let i = 0; i < this.tileEvent.length; i++) {
-      const element = this.tileEvent[i];
-      if (this.coordinateX == element.x &&
-          this.coordinateY == element.y &&
-          this.floor == element.floor)
-           { element.callback() }
-    }
-
-  }
-
-  setFloor(Floor, Index, instant = false) {
+  setFloor (Floor, coordinateX, coordinateY, instant = false) {
     if (this.floor) {
       this.floor.pathfinder.ClearPathHint()
       this.floor.setInteractable(false)
@@ -56,7 +43,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.floor = Floor
     this.floor.setInteractable(true)
 
-    this._move_bytile(this.floor.getChildren()[Index], instant)
+    const tile = this.floor.getChildren().find(tile => tile.coordinateX === coordinateX && tile.coordinateY === coordinateY)
+    this._move_bytile(tile, instant)
     this.floor.pathfinder.ClearPathHint()
   }
 
@@ -71,9 +59,9 @@ export default class Character extends Phaser.GameObjects.Sprite {
       this.coordinateY = tilePath[i].coordinateY
 
       // 決定方位
-      if (i !== tilePath.length-1) {
-        const nextX = tilePath[i+1].coordinateX
-        const nextY = tilePath[i+1].coordinateY
+      if (i !== tilePath.length - 1) {
+        const nextX = tilePath[i + 1].coordinateX
+        const nextY = tilePath[i + 1].coordinateY
         if (nextX < this.coordinateX && nextY === this.coordinateY) { // 左上
           this.direction = 'left_back'
         } else if (nextX > this.coordinateX && nextY === this.coordinateY) { // 右下
@@ -89,7 +77,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
       {
         targets: this,
         x: tilePath[i].x,
-        y: tilePath[i].y - this.height/1.5,
+        y: tilePath[i].y - this.height / 1.5,
         duration: 500,
         ease: 'Expo',
         easeParams: [],
@@ -100,6 +88,9 @@ export default class Character extends Phaser.GameObjects.Sprite {
           // console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
           store.dispatch('walk')
           if (i === tilePath.length - 1) {
+            if (character.floor.floor === 2) {
+              character.setFloor(this.scene.firstFloor, targetTile.coordinateX, targetTile.coordinateY, false)
+            }
             character.state = 'idle'
             this.playAnim()
             if (targetTile.hasOwnProperty('item')) {
@@ -108,7 +99,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
             this.floor.pathfinder.ClearPathHint()
           }
-          this.traverse_event()
         },
         onCompleteParams: [this]
       }
@@ -117,16 +107,16 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.scene.tweens.timeline({ tweens: _tweens })
   }
 
-  _move_bytile(tile, instant) {
+  _move_bytile (tile, instant) {
     this._move(tile.x, tile.y, tile.depth, instant)
     this.coordinateX = tile.coordinateX
     this.coordinateY = tile.coordinateY
     this.depth = tile.depth + 20
   }
 
-  _move(x, y, depth, instant) {
+  _move (x, y, depth, instant) {
     var tX = x
-    var tY = y - this.height/1.5 //FIXME: 因為希望角色顯示在正中間所以硬幹
+    var tY = y - this.height / 1.5 //FIXME: 因為希望角色顯示在正中間所以硬幹
     this.depth = depth + 300 //FIXME: 因為希望角色顯示在最上面所以硬幹
     // TODO: 到二樓後 depth 變大
 
@@ -150,7 +140,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
       onComplete: (tween, targets, anims) => {
         this.state = 'idle'
         this.playAnim()
-       },
+      },
       onCompleteParams: [this.anims]
     })
   }
@@ -159,7 +149,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     const config = {
       key: key,
       frames: this.scene.anims.generateFrameNames(this.texture.key, {
-        prefix: posName+ '_',
+        prefix: posName + '_',
         suffix: '.png',
         start: startFrame,
         end: endFrame,

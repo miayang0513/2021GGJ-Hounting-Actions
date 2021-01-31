@@ -109,17 +109,10 @@ export default class Floor extends Phaser.GameObjects.Group {
     this.pathfinder = new PathFinding(character)
 
     this.placeTiles()
-
-    this.TransparentTiles = []
   }
   setInteractable(bool){
     for (let index = 0; index < this.getChildren().length; index++) {
       const element = this.getChildren()[index];
-      // element.setInteractable(bool)
-    }
-    for (let index = 0; index < this.TransparentTiles.length; index++) {
-      const element = this.TransparentTiles[index];
-      element.setInteractable(bool)
     }
   }
   placeTiles () {
@@ -164,11 +157,7 @@ export default class Floor extends Phaser.GameObjects.Group {
     }
     return true
   }
-  addTiles(addTile = [{ tile, x, y, floor, callback }]){
-    for (let index = 0; index < addTile.length; index++) {
-      const element = addTile[index]
-      this.TransparentTiles.push(element.tile)
-    }
+  addTiles(addTile = [{ tile, x, y, floor }]){
     this.pathfinder.addTile(addTile)
   }
 }

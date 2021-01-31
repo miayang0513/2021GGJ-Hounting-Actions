@@ -43,14 +43,12 @@ export default class PathFinding {
 
     //新增可以觸及的範圍，並更新網格
     //這邊也可以同時新增，如果碰觸到網格要觸發的事件(ch-oncomplete)
-    addTile(addTile = [{ tile, x, y, floor, callback }]) {
+    addTile(addTile = [{ tile, x, y, floor, callback }]) {  
         console.log("Before")
         console.log(this.grid)
         for (let i = 0; i < addTile.length; i++) {
             const element = addTile[i];
-            // element.tile.setDot()
             element.tile.floor = 2
-            this.Player.tileEvent.push(element)
             this.tiles.push(element.tile)
         }
         this.init(this.tiles)
