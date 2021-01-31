@@ -20,10 +20,7 @@ const actions = {
     document.querySelector('body')?.prepend(notificationElement)
   },
   makeItemJitter (context, itemId) {
-    console.log(itemId)
-    
     const availableItems = itemJson.fixed.find(item => item.id === itemId)?.availableItems
-    console.log(availableItems)
     const statusList = context.state.items.map(itemId => {
       if (itemId === null) {
         return 'empty'
@@ -77,11 +74,17 @@ const actions = {
   useItem (context, inOutTable) {
     const index = context.state.items.findIndex(itemId => itemId === inOutTable.in)
     const itemElement = document.querySelector('.baggage')?.children[index]
-    if (inOutTable.out === 'win') {
-      const playScene = game.scene.keys['PlayScene']
+    if (inOutTable.out === 'safe') {
+      itemElement.dataset.status = 'empty'
       context.state.items[index] = null
       itemElement.dataset.name = ''
-      console.log(playScene)
+      return
+    }
+    if (inOutTable.out === 'win') {
+      const playScene = game.scene.keys['PlayScene']
+      itemElement.dataset.status = 'empty'
+      context.state.items[index] = null
+      itemElement.dataset.name = ''
       playScene.bigMonster.walkToDrinkBeer()
       return
     }
@@ -94,7 +97,6 @@ const actions = {
       itemElement.dataset.name = ''
       context.dispatch('showNotification', { message: `GET a ${outputItem.name}` })
       const playScene = game.scene.keys['PlayScene']
-      console.log(outputItem.id)
       if (outputItem.id === 'little-monster-umbrella') {
         playScene.littleMonster.setTexture(outputItem.id)
       } else if (outputItem.id === 'clean-table') {

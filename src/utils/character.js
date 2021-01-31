@@ -1,6 +1,6 @@
-import { TOP_LEFT } from 'easystarjs'
 import Phaser from 'phaser'
 import store from '../store'
+import itemJson from '../assets/json/item.json'
 
 export default class Character extends Phaser.GameObjects.Sprite {
 
@@ -90,7 +90,11 @@ export default class Character extends Phaser.GameObjects.Sprite {
           if (i === tilePath.length - 1) {
             if (character.floor.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
               character.setFloor(this.scene.firstFloor, targetTile.coordinateX, targetTile.coordinateY, false)
-              store.dispatch('gameOver')
+              if (store.state.items.includes('umbrella')) {
+                store.dispatch('useItem', { in: 'umbrella', out: 'safe' })
+              } else {
+                store.dispatch('gameOver')
+              }
             }
             character.state = 'idle'
             this.playAnim()
