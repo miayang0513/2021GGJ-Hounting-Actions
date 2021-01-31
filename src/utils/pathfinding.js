@@ -48,7 +48,7 @@ export default class PathFinding {
         console.log(this.grid)
         for (let i = 0; i < addTile.length; i++) {
             const element = addTile[i];
-            element.tile.setDot()
+            // element.tile.setDot()
             element.tile.floor = 2
             this.Player.tileEvent.push(element)
             this.tiles.push(element.tile)

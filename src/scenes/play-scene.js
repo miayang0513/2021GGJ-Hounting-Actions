@@ -14,7 +14,7 @@ export default class PlayScene extends Scene {
     this.wall = null
   }
   init() {
-    this.Character_instance = new Character(this, 40, 40, 'character_atlas', 'frame_0000')
+    this.Character_instance = new Character(this, 40, 40, 'character')
   }
   preload () {
   }
@@ -67,7 +67,10 @@ export default class PlayScene extends Scene {
       newInstance.setInvisible()
       newInstance.acceptable = true
       newInstance.pathfinder = this.secondFloor.pathfinder
-      addTiles.push({ tile: newInstance,x: newInstance.coordinateX,y:newInstance.coordinateY, floor: this.secondFloor, callback: () => { console.log("YOU ARE DIE!!!!!") } })
+      addTiles.push({ tile: newInstance, x: newInstance.coordinateX, y: newInstance.coordinateY, floor: this.secondFloor, callback: () => { 
+        console.log("YOU ARE DIE!!!!!")
+        // store.dispatch('gameOver')
+      }})
     }
 
     this.secondFloor.addTiles(addTiles)

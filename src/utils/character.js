@@ -26,7 +26,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.generateAnim('right_front_walk', 'right_front', 1, 2, -1)
     // this.generateAnim('umbrella_walk', 'umbrella', 1, 2, -1)
     this.generateAnim('climb_walk', 'climb', 0, 2 , -1)
-    this.play(`${this.direction}_${this.state}`)
+    this.playAnim()
     this.floor = null
 
     this.tileEvent = [{ x: 0, y: 0, floor: null, callback: () => { } }]
@@ -101,7 +101,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
           store.dispatch('walk')
           if (i === tilePath.length - 1) {
             character.state = 'idle'
-            this.play(`${this.direction}_${this.state}`)
+            this.playAnim()
             if (targetTile.hasOwnProperty('item')) {
               store.dispatch('makeItemJitter', targetTile.item.id)
             }
@@ -113,7 +113,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
         onCompleteParams: [this]
       }
     }
-    this.play(`${this.direction}_${this.state}`)
+    this.playAnim()
     this.scene.tweens.timeline({ tweens: _tweens })
   }
 
@@ -136,7 +136,9 @@ export default class Character extends Phaser.GameObjects.Sprite {
       return
     }
 
-    this.anims.play('walk')
+    this.state = 'walk'
+    this.playAnim()
+
     this.tween = this.scene.tweens.add({
       targets: this,
       x: tX,
@@ -145,7 +147,10 @@ export default class Character extends Phaser.GameObjects.Sprite {
       ease: 'Expo',
       easeParams: [],
       yoyo: false,
-      onComplete: function (tween, targets, anims) { anims.play('idle') },
+      onComplete: (tween, targets, anims) => {
+        this.state = 'idle'
+        this.playAnim()
+       },
       onCompleteParams: [this.anims]
     })
   }
@@ -163,6 +168,10 @@ export default class Character extends Phaser.GameObjects.Sprite {
       repeat: repeat
     }
     this.scene.anims.create(config)
+  }
+
+  playAnim () {
+    this.play(`${this.direction}_${this.state}`)
   }
 
 }
