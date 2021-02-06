@@ -2,16 +2,21 @@ import Phaser from 'phaser'
 import store from '../store'
 
 export default class Character extends Phaser.GameObjects.Sprite {
-  constructor (scene, x, y, texture, options) {
-    super(scene, x, y, texture)
+  constructor (scene, { floor, coordinateX, coordinateY }) {
+    super(scene)
     scene.add.existing(this)
-    this.coordinateX = 0
-    this.coordinateY = 0
+    this.centerX = screen.width / 2
+    this.centerY = screen.height / 2
+    this.setTexture('character')
+    this.setOrigin(0.5, 1)
+    this.coordinateX = coordinateX
+    this.coordinateY = coordinateY
+    this.floor = floor
     this.state = 'idle'
     this.direction = 'left_front'
-    this.floor = null 
-    this.setOrigin(0.5, 1)
     this.count = 0
+
+    this.placeCharacterOnGround()
 
     this.generateAnim('left_back_idle', 'left_back', 0, 0, 0)
     this.generateAnim('left_back_walk', 'left_back', 1, 2, -1)
@@ -173,5 +178,20 @@ export default class Character extends Phaser.GameObjects.Sprite {
   }
   moveTo (floor, coordinateX, coordinateY) {
 
+  }
+  placeCharacterOnGround () {
+    const coordinateX = this.coordinateX - 1
+    const coordinateY = this.coordinateY - 1
+    const tileWidth = 192
+    const tileHeight = 96
+    const tileWidthHalf = tileWidth / 2
+    const tileHeightHalf = tileHeight / 2
+    const tx = (coordinateX - coordinateY) * tileWidthHalf
+    const ty = (coordinateX + coordinateY) * tileHeightHalf
+    const x = this.centerX + tx
+    const y = this.centerY + ty - (this.floor - 1) * tileHeight * 2
+    const depth = this.centerY + ty
+    this.setPosition(x, y)
+    this.setDepth(10000)
   }
 }

@@ -15,7 +15,6 @@ export default class PlayScene extends Scene {
     this.wall = null
   }
   init () {
-    this.Character_instance = new Character(this, 40, 40, 'character')
   }
   preload () {
   }
@@ -32,6 +31,7 @@ export default class PlayScene extends Scene {
 
 
 
+    this.character = new Character(this, { coordinateX: 5, coordinateY: 5, floor: 1 })
     // const firstFloor_collider = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
     this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 })
     this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 })
@@ -72,7 +72,9 @@ export default class PlayScene extends Scene {
     this.mountDragEvent()
     this.mountWheelEvent()
   }
-
+  update () {
+    this.firstFloor.easyStar.calculate()
+  }
   mountDragEvent () {
     const pinch = this.rexGestures.add.pinch()
     const camera = this.cameras.main
