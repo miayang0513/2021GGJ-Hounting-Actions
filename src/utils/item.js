@@ -62,7 +62,6 @@ export default class Item extends Phaser.GameObjects.Image {
     if (column !== null && row !== null) {
       this.coordinateX = column - 1
       this.coordinateY = row - 1
-      this.pathselecting = false
       if (floor === 1) {
         const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === this.coordinateX && tile.coordinateY === this.coordinateY)
         tile.wall = this
@@ -72,23 +71,8 @@ export default class Item extends Phaser.GameObjects.Image {
       }
       this.setInteractive()
         .on('pointerdown', () => {
-          this.CheckPosition()
           console.log(`物品: ${this.id} and walk to ${this.coordinateX} ${this.coordinateY}`)
         })
-    }
-  }
-
-  CheckPosition () {
-    console.log('check', this.scene.Character_instance)
-    if (this.pathselecting == false) {
-      this.pathselecting = true
-      this.scene.Character_instance.floor.pathfinder.Find(this, function () { })
-      return
-    }
-    else {
-      this.scene.Character_instance.floor.pathfinder.Find(this, (tilePath) => {
-        this.scene.Character_instance.CharacterEvent.emit('moveCharacter_bypath', { tilePath, targetTile: this })
-      })
     }
   }
 

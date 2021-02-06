@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
-import PathFinding from './pathfinding'
 class Tile extends Phaser.GameObjects.Image {
-  constructor (scene, { x, y, texture, depth, coordinateX, coordinateY, floor, acceptable, playerevents, pathfinder }) {
+  constructor (scene, { x, y, texture, depth, coordinateX, coordinateY, floor }) {
     super(scene, x, y, texture)
     scene.add.existing(this)
     this.pathselecting = false
@@ -9,9 +8,6 @@ class Tile extends Phaser.GameObjects.Image {
     this.coordinateY = coordinateY
     this.depth = depth
     this.floor = floor
-    this.acceptable = acceptable
-    this.playerevents = playerevents
-    this.pathfinder = pathfinder
     this._interactArea = new Phaser.Geom.Polygon([
       0, 101,
       96, 150, 192, 101,
@@ -23,39 +19,11 @@ class Tile extends Phaser.GameObjects.Image {
     this.setInteractive(this._interactArea, Phaser.Geom.Polygon.Contains)
       .on('pointerdown', () => {
         console.log(`${this.floor}樓 (${this.coordinateX}, ${this.coordinateY})`)
-        this.CheckPosition()
       })
 
     this.dot = scene.add.image(this.x, this.y - 100, 'dot').setDepth(this.depth).setVisible(false)
     this.borderRec = scene.add.image(this.x, this.y - 112, 'borderRec').setDepth(this.depth).setVisible(false)
   }
-
-  CheckPosition (playerevents = this.playerevents) {
-    if (this.pathselecting == false) {
-      this.pathselecting = true
-      this.pathfinder.Find(this, function () { })
-      return
-    }
-    else {
-      this.pathfinder.Find(this, (tilePath) => {
-        playerevents.emit('moveCharacter_bypath', { tilePath, targetTile: this })
-      })
-    }
-  }
-
-  setInvisible(){
-    this.setTexture('tile-empty')
-  }
-
-  setInteractable(bool){
-    if(bool){
-      this.setDepth(10000)
-    }
-    else{
-      this.setDepth(-10000)
-    }
-  }
-
   setDot() {
     this.dot.setVisible(true)
     this.borderRec.setVisible(false)
@@ -70,28 +38,10 @@ class Tile extends Phaser.GameObjects.Image {
     this.dot.setVisible(false)
     this.borderRec.setVisible(false)
   }
-
-  copy(){
-    const options = {
-      x: this.x,
-      y: this.y,
-      texture: this.texture,
-      depth: this.depth+10,
-      coordinateX: this.coordinateX,
-      coordinateY: this.coordinateY,
-      floor: this.floor,
-      acceptable: this.acceptable,
-      playerevents: this.playerevents,
-      pathfinder: this.pathfinder
-    }
-    const tile = new Tile(this.scene, options).setOrigin(0.5, 1)
-    return tile
-  }
-
 }
 
 export default class Floor extends Phaser.GameObjects.Group {
-  constructor(scene, { column, row, floor }, { colliders = [], character }) {
+  constructor(scene, { column, row, floor }) {
 
     super(scene)
     
@@ -102,18 +52,7 @@ export default class Floor extends Phaser.GameObjects.Group {
     this.row = row
     this.floor = floor
 
-    this.playerevents = character.CharacterEvent
-    //創建樓層時必須指定acceptable的位置
-    this.colliders = colliders
-    //用於進行路徑搜尋
-    this.pathfinder = new PathFinding(character)
-
     this.placeTiles()
-  }
-  setInteractable(bool){
-    for (let index = 0; index < this.getChildren().length; index++) {
-      const element = this.getChildren()[index];
-    }
   }
   placeTiles () {
     const tileWidth = 192
@@ -132,10 +71,7 @@ export default class Floor extends Phaser.GameObjects.Group {
           depth: this.centerY + ty,
           coordinateX: x,
           coordinateY: y,
-          floor: this.floor,
-          acceptable: this.is_acceptable([y, x]),
-          playerevents: this.playerevents,
-          pathfinder: this.pathfinder
+          floor: this.floor
         }
         const tile = new Tile(this.scene, options).setOrigin(0.5, 1)
         if (x < 7 && y < 3 && this.floor === 1) {
@@ -144,20 +80,5 @@ export default class Floor extends Phaser.GameObjects.Group {
         this.add(tile)
       }
     }
-    this.pathfinder.init(this.getChildren())
-  }
-  is_acceptable(index) {
-    for (let i = 0; i < this.colliders.length; i++) {
-      const element = this.colliders[i];
-      if (element[0] == index[0] &&
-          element[1] == index[1]) {
-        console.log(element)
-        return false
-      }
-    }
-    return true
-  }
-  addTiles(addTile = [{ tile, x, y, floor }]){
-    this.pathfinder.addTile(addTile)
   }
 }

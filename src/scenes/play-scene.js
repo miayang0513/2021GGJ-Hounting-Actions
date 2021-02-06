@@ -32,15 +32,10 @@ export default class PlayScene extends Scene {
 
 
 
-    var firstFloor_collider = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
-    this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 }, { colliders: firstFloor_collider, pathfinder: this.Pathfinding, character: this.Character_instance })
-    this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 }, { acceptable: [], pathfinder: this.Pathfinding, character: this.Character_instance })
+    // const firstFloor_collider = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
+    this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 })
+    this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 })
 
-    // ↓這個方法可以直接設定玩家的樓層↓
-    this.Character_instance.setFloor(this.firstFloor, 4, 4, true)
-
-    // ↓把會死的第二層設定出來↓
-    this.setFallRange()
     // item setting
     this.pliers = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
     this.table = new Item(this, 'table', 'ground', { column: 1, row: 8, floor: 1 }).setOrigin(0.5, 1)
@@ -54,7 +49,6 @@ export default class PlayScene extends Scene {
         return
       }
       this.nail.setTexture('rope')
-      this.Character_instance.setFloor(this.secondFloor, 5, 2, false)
       this.tweens.add({
         targets: this.nail,
         alpha: 0,
@@ -79,30 +73,6 @@ export default class PlayScene extends Scene {
     this.mountWheelEvent()
   }
 
-  setFallRange () {
-
-    var searchTiles = this.firstFloor.getChildren()
-    var tTiles = [searchTiles[7], searchTiles[16], searchTiles[25]]
-    for (let index = 27; index < 35; index++) { tTiles.push(searchTiles[index]) }
-    var addTiles = []
-    for (let i = 0; i < tTiles.length; i++) {
-      const element = tTiles[i]
-      var newInstance = element.copy()
-      newInstance.setInvisible()
-      newInstance.acceptable = true
-      newInstance.pathfinder = this.secondFloor.pathfinder
-      addTiles.push({
-        tile: newInstance,
-        x: newInstance.coordinateX,
-        y: newInstance.coordinateY,
-        floor: this.secondFloor
-      })
-    }
-
-    this.secondFloor.addTiles(addTiles)
-    this.secondFloor.setInteractable(false)
-  }
-
   mountDragEvent () {
     const pinch = this.rexGestures.add.pinch()
     const camera = this.cameras.main
@@ -124,15 +94,6 @@ export default class PlayScene extends Scene {
       }
       this.cameras.main.setZoom(zoom)
     })
-  }
-  update () {
-    if (this.Character_instance.floor) {
-      this.Character_instance.floor.pathfinder.Finder.calculate()
-    }
-    var spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-    if (Phaser.Input.Keyboard.JustDown(spacebar)) {
-      this.Character_instance.setFloor(this.secondFloor, 5, 2, false)
-    }
   }
   createAnim (key, name, atlas, endFrame) {
     const config = {

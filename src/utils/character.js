@@ -1,20 +1,15 @@
 import Phaser from 'phaser'
 import store from '../store'
-import itemJson from '../assets/json/item.json'
 
 export default class Character extends Phaser.GameObjects.Sprite {
-
   constructor (scene, x, y, texture, options) {
-
     super(scene, x, y, texture)
-
     scene.add.existing(this)
-
     this.coordinateX = 0
     this.coordinateY = 0
     this.state = 'idle'
     this.direction = 'left_front'
-    this.floor = null //用來處理
+    this.floor = null 
     this.setOrigin(0.5, 1)
     this.count = 0
 
@@ -29,26 +24,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.generateAnim('umbrella', 'umbrella', 0, 1, 2)
     this.generateAnim('climb_walk', 'climb', 0, 2, -1)
     this.playAnim()
-    this.floor = null
-
-    this.CharacterEvent = new Phaser.Events.EventEmitter()
-    this.CharacterEvent.on('moveCharacter_bytile', this._move_bytile, this)
-    this.CharacterEvent.on('moveCharacter_bypath', this._move_path, this)
   }
-
-  setFloor (Floor, coordinateX, coordinateY, instant = false) {
-    if (this.floor) {
-      this.floor.pathfinder.ClearPathHint()
-      this.floor.setInteractable(false)
-    }
-    this.floor = Floor
-    this.floor.setInteractable(true)
-
-    const tile = this.floor.getChildren().find(tile => tile.coordinateX === coordinateX && tile.coordinateY === coordinateY)
-    this._move_bytile(tile, instant)
-    this.floor.pathfinder.ClearPathHint()
-  }
-
   _move_path ({ tilePath, targetTile }) {
     if (this.scene.bigMonster.alpha === 0) {
       this.count++
@@ -192,5 +168,10 @@ export default class Character extends Phaser.GameObjects.Sprite {
   playAnim () {
     this.play(`${this.direction}_${this.state}`)
   }
+  readyToMove (floor, coordinateX, coordinateY) {
 
+  }
+  moveTo (floor, coordinateX, coordinateY) {
+
+  }
 }
