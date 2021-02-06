@@ -4,6 +4,7 @@ class Tile extends Phaser.GameObjects.Image {
   constructor (scene, { x, y, texture, depth, coordinateX, coordinateY, floor }) {
     super(scene, x, y, texture)
     scene.add.existing(this)
+    this.texture = texture
     this.coordinateX = coordinateX
     this.coordinateY = coordinateY
     this.depth = depth
@@ -26,13 +27,12 @@ class Tile extends Phaser.GameObjects.Image {
         if (character.state === 'walk') {
           return
         }
-        if (this.floor === 1) {
-          if (this.scene.firstFloor.lastClickTile === this) {
-            this.scene.firstFloor.lastClickTile = null
-            character.moveTo(this.scene.firstFloor.lastPath, this)
-          } else {
-            this.scene.firstFloor.findPath(this)
-          }
+
+        if (this.scene.currentFloor.lastClickTile === this) {
+          this.scene.currentFloor.lastClickTile = null
+          character.moveTo(this.scene.currentFloor.lastPath, this)
+        } else {
+          this.scene.currentFloor.findPath(this)
         }
       })
   }
@@ -53,10 +53,11 @@ class Tile extends Phaser.GameObjects.Image {
 }
 
 export default class Floor extends Phaser.GameObjects.Group {
-  constructor (scene, { column, row, floor }) {
+  constructor (scene, { size, column, row, floor }) {
     super(scene)
     this.centerX = screen.width / 2
     this.centerY = screen.height / 2
+    this.size = size
     this.column = column
     this.row = row
     this.floor = floor
@@ -72,17 +73,26 @@ export default class Floor extends Phaser.GameObjects.Group {
     const tileHeightHalf = tileHeight / 2
     const easyGrid = []
 
-    for (let y = 0; y < this.row; y++) {
+    for (let y = 0; y < this.size; y++) {
       easyGrid.push([])
-      for (let x = 0; x < this.column; x++) {
+      for (let x = 0; x < this.size; x++) {
         easyGrid[y].push(0)
         let tx = (x - y) * tileWidthHalf
         let ty = (x + y) * tileHeightHalf
+        let texture = (x + y) % 2 === 0 ? 'tile-light' : 'tile-dark'
+        let offsetY = (this.floor - 1) * tileHeight * 2
+        let depth = this.centerY + ty
+
+        if (y >= this.row || x >= this.column) {
+          texture = 'tile-empty'
+          offsetY = 0
+        }
+
         const options = {
           x: this.centerX + tx,
-          y: this.centerY + ty - (this.floor - 1) * tileHeight * 2,
-          texture: (x + y) % 2 === 0 ? 'tile-light' : 'tile-dark',
-          depth: this.centerY + ty,
+          y: this.centerY + ty - offsetY,
+          texture,
+          depth,
           coordinateX: x,
           coordinateY: y,
           floor: this.floor
@@ -122,11 +132,19 @@ export default class Floor extends Phaser.GameObjects.Group {
         this.lastPath.push(tile)
       }
       this.lastPath[this.lastPath.length - 1].setBorderRec()
+      console.log(this.lastPath)
       this.lastClickTile = targetTile
     })
   }
   clearLastPathHint () {
     this.lastPath.forEach(path => path.clearIndicator())
     this.lastPath.length = 0
+  }
+  setEmptyTileInteractive (bool) {
+    this.getChildren().forEach(tile => {
+      if (tile.texture === 'tile-empty') {
+        tile.input.enabled = bool
+      }
+    })
   }
 }

@@ -12,6 +12,7 @@ export default class PlayScene extends Scene {
     this.centerY = screen.height / 2
     this.firstFloor = null
     this.secondFloor = null
+    this.currentFloor = null
     this.wall = null
   }
   create () {
@@ -29,8 +30,10 @@ export default class PlayScene extends Scene {
 
     this.character = new Character(this, { coordinateX: 5, coordinateY: 5, floor: 1 })
     // const firstFloor_collider = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
-    this.firstFloor = new Floor(this, { column: 9, row: 9, floor: 1 })
-    this.secondFloor = new Floor(this, { column: 7, row: 3, floor: 2 })
+    this.firstFloor = new Floor(this, { size: 9, column: 9, row: 9, floor: 1 })
+    this.secondFloor = new Floor(this, { size: 9, column: 7, row: 3, floor: 2 })
+    this.secondFloor.setEmptyTileInteractive(false)
+    this.currentFloor = this.firstFloor
 
     // item setting
     this.pliers = new Item(this, 'pliers', 'ground', { column: 9, row: 6, floor: 1 }).setOrigin(0.5, 1)
@@ -55,7 +58,7 @@ export default class PlayScene extends Scene {
     this.mountWheelEvent()
   }
   update () {
-    this.firstFloor.easyStar.calculate()
+    this.currentFloor.easyStar.calculate()
   }
   mountDragEvent () {
     const pinch = this.rexGestures.add.pinch()
@@ -92,5 +95,16 @@ export default class PlayScene extends Scene {
       frameRate: 25
     }
     this.anims.create(config)
+  }
+  switchFloor () {
+    if (this.character.floor === 1) {
+      this.character.floor = 2
+      this.currentFloor = this.secondFloor
+      this.secondFloor.setEmptyTileInteractive(true)
+    } else {
+      this.secondFloor.setEmptyTileInteractive(false)
+      this.character.floor = 1
+      this.currentFloor = this.firstFloor
+    }
   }
 }

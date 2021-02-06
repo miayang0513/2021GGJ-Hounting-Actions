@@ -70,10 +70,8 @@ export default class Item extends Phaser.GameObjects.Image {
       }
       this.setInteractive()
         .on('pointerdown', () => {
-          if (floor === 1) {
-            const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === this.coordinateX && tile.coordinateY === this.coordinateY)
-            tile.emit('pointerdown')
-          }
+          const tile = this.scene.currentFloor.getChildren().find(tile => tile.coordinateX === this.coordinateX && tile.coordinateY === this.coordinateY)
+          tile.emit('pointerdown')
           console.log(`物品: ${this.id} and walk to ${this.coordinateX} ${this.coordinateY}`)
         })
     }

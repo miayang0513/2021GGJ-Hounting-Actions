@@ -70,29 +70,28 @@ export default class Character extends Phaser.GameObjects.Sprite {
         onStartParams: [tilePath[i].depth],
         onStart: (tween, targets, depth) => {
           this.depth = depth + 50
-          if (i === tilePath.length - 1) {
-            if (this.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
-              if (store.state.items.includes('umbrella')) {
-                this.play('umbrella')
-              }
+          if (this.floor === 2 && (tilePath[i].coordinateX === 7 || tilePath[i].coordinateY === 3)) {
+            if (store.state.items.includes('umbrella')) {
+              this.play('umbrella')
             }
           }
         },
-        onCompleteParams: [],
-        onComplete: (tween, targets) => {
+        onCompleteParams: [store.state.items.includes('umbrella')],
+        onComplete: (tween, targets, haveUmbrella) => {
+          console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
+
           // audio
           this.scene.scene.get('AudioScene').walkAudio.play()
-
-          console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
           store.dispatch('walk')
-          if (i === tilePath.length - 1) {
-            if (this.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
-              if (store.state.items.includes('umbrella')) {
-                store.dispatch('useItem', { in: 'umbrella', out: 'safe' })
-              } else {
-                store.dispatch('gameOver')
-              }
+          if (this.floor === 2 && (tilePath[i].coordinateX === 7 || tilePath[i].coordinateY === 3)) {
+            if (!haveUmbrella) {
+              return store.dispatch('gameOver')
             }
+            if (haveUmbrella && store.state.items.includes('umbrella')) {
+              store.dispatch('useItem', { in: 'umbrella', out: 'safe' })
+            }
+          }
+          if (i === tilePath.length - 1) {
             this.state = 'idle'
             this.playAnim()
             if (targetTile.hasOwnProperty('item')) {
@@ -102,8 +101,9 @@ export default class Character extends Phaser.GameObjects.Sprite {
             } else if (targetTile.hasOwnProperty('wall')) {
               store.dispatch('makeItemJitter', targetTile.wall.id)
             }
-            if (this.floor === 1) {
-              this.scene.firstFloor.clearLastPathHint()
+            this.scene.currentFloor.clearLastPathHint()
+            if (this.floor === 2) {
+              this.scene.switchFloor()
             }
           }
         }
@@ -137,6 +137,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
       delay: 500,
       duration: 2000,
     })
+    this.scene.switchFloor()
     const tile = this.scene.secondFloor.getChildren().find(tile => tile.coordinateX === 5 && tile.coordinateY === 2)
     this.coordinateX = tile.coordinateX
     this.coordinateY = tile.coordinateY
