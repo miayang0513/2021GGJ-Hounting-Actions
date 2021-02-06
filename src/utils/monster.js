@@ -29,11 +29,6 @@ export default class Monster extends Phaser.GameObjects.Sprite {
     this.coordinateY = coordinateY
     const tile = this.scene.firstFloor.getChildren().find(tile => tile.coordinateX === 8 && tile.coordinateY === 0)
     tile.monster = this
-
-    this.setInteractive()
-      .on('pointerdown', () => {
-        console.log("I'm a monster")
-      })
   }
 
   walkToDrinkBeer () {

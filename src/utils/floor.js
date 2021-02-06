@@ -22,9 +22,13 @@ class Tile extends Phaser.GameObjects.Image {
       .on('pointerdown', async () => {
         console.log(`${this.floor}樓 (${this.coordinateX}, ${this.coordinateY})`)
 
+        const character = this.scene.character
+        if (character.state === 'walk' || (character.coordinateX === this.coordinateX && character.coordinateY === this.coordinateY)) {
+          return
+        }
         if (this.floor === 1) {
           if (this.scene.firstFloor.lastClickTile === this) {
-            console.log('move to')
+            character.moveTo(this.scene.firstFloor.lastPath, this)
           } else {
             const path = await this.scene.firstFloor.findPath(this)
           }

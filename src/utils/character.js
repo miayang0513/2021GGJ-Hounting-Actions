@@ -30,7 +30,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.generateAnim('climb_walk', 'climb', 0, 2, -1)
     this.playAnim()
   }
-  _move_path ({ tilePath, targetTile }) {
+  moveTo (tilePath, targetTile) {
     if (this.scene.bigMonster.alpha === 0) {
       this.count++
       if (this.count === 3) {
@@ -38,10 +38,9 @@ export default class Character extends Phaser.GameObjects.Sprite {
         this.scene.bigMonster.walkBack()
       }
     }
-    this.state = 'walk'
     store.dispatch('cancelItemJitter')
-    var _tweens = []
-    _tweens.length = tilePath.length
+    this.state = 'walk'
+    const tweens = []
     for (let i = 0; i < tilePath.length; i++) {
 
       this.coordinateX = tilePath[i].coordinateX
@@ -62,97 +61,57 @@ export default class Character extends Phaser.GameObjects.Sprite {
         }
       }
 
-      _tweens[i] =
-      {
+      tweens.push({
         targets: this,
         x: tilePath[i].x,
         y: tilePath[i].y - this.height / 1.5,
         duration: 500,
         ease: 'Expo',
-        easeParams: [],
-        yoyo: false,
-        onStart: (tween, targets, depth, character) => {
-          character.depth = depth + 50
+        onStartParams: [tilePath[i].depth],
+        onStart: (tween, targets, depth) => {
+          this.depth = depth + 50
           if (i === tilePath.length - 1) {
-            if (character.floor.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
+            if (this.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
               if (store.state.items.includes('umbrella')) {
                 this.play('umbrella')
               }
             }
           }
         },
-        onStartParams: [tilePath[i].depth, this],
-        onComplete: (tween, targets, character) => {
+        onCompleteParams: [],
+        onComplete: (tween, targets) => {
           // audio
           this.scene.scene.get('AudioScene').walkAudio.play()
 
           console.log(`總共${tilePath.length}步，現在是第${i + 1}步`)
           store.dispatch('walk')
           if (i === tilePath.length - 1) {
-            if (character.floor.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
-              character.setFloor(this.scene.firstFloor, targetTile.coordinateX, targetTile.coordinateY, false)
+            if (this.floor === 2 && (targetTile.coordinateX === 7 || targetTile.coordinateY === 3)) {
               if (store.state.items.includes('umbrella')) {
                 store.dispatch('useItem', { in: 'umbrella', out: 'safe' })
               } else {
                 store.dispatch('gameOver')
               }
             }
-            character.state = 'idle'
+            this.state = 'idle'
             this.playAnim()
             if (targetTile.hasOwnProperty('item')) {
               store.dispatch('makeItemJitter', targetTile.item.id)
-            } else if (targetTile.objType === 'monster') {
-              store.dispatch('makeItemJitter', targetTile.id)
+            } else if (targetTile.hasOwnProperty('monster')) {
+              store.dispatch('makeItemJitter', targetTile.monster.id)
             } else if (targetTile.hasOwnProperty('wall')) {
               store.dispatch('makeItemJitter', targetTile.wall.id)
             }
-
-            this.floor.pathfinder.ClearPathHint()
+            if (this.floor === 1) {
+              this.scene.firstFloor.clearLastPathHint()
+            }
           }
-        },
-        onCompleteParams: [this]
-      }
+        }
+      })
+
     }
     this.playAnim()
-    this.scene.tweens.timeline({ tweens: _tweens })
-  }
-
-  _move_bytile (tile, instant) {
-    this._move(tile.x, tile.y, tile.depth, instant)
-    this.coordinateX = tile.coordinateX
-    this.coordinateY = tile.coordinateY
-    this.depth = tile.depth + 20
-  }
-
-  _move (x, y, depth, instant) {
-    var tX = x
-    var tY = y - this.height / 1.5 //FIXME: 因為希望角色顯示在正中間所以硬幹
-    this.depth = depth + 300 //FIXME: 因為希望角色顯示在最上面所以硬幹
-    // TODO: 到二樓後 depth 變大
-
-    if (instant) {
-      this.x = tX
-      this.y = tY
-      return
-    }
-
-    this.state = 'walk'
-    this.playAnim()
-
-    this.tween = this.scene.tweens.add({
-      targets: this,
-      x: tX,
-      y: tY,
-      duration: 1000,
-      ease: 'Expo',
-      easeParams: [],
-      yoyo: false,
-      onComplete: (tween, targets, anims) => {
-        this.state = 'idle'
-        this.playAnim()
-      },
-      onCompleteParams: [this.anims]
-    })
+    this.scene.tweens.timeline({ tweens })
   }
 
   generateAnim (key, posName, startFrame, endFrame, repeat) {
@@ -172,12 +131,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
   playAnim () {
     this.play(`${this.direction}_${this.state}`)
-  }
-  readyToMove (floor, coordinateX, coordinateY) {
-
-  }
-  moveTo (floor, coordinateX, coordinateY) {
-
   }
   placeCharacterOnGround () {
     const coordinateX = this.coordinateX - 1
