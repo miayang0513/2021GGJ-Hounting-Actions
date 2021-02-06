@@ -19,18 +19,19 @@ class Tile extends Phaser.GameObjects.Image {
     ])
 
     this.setInteractive(this._interactArea, Phaser.Geom.Polygon.Contains)
-      .on('pointerdown', async () => {
+      .on('pointerdown', () => {
         console.log(`${this.floor}樓 (${this.coordinateX}, ${this.coordinateY})`)
 
         const character = this.scene.character
-        if (character.state === 'walk' || (character.coordinateX === this.coordinateX && character.coordinateY === this.coordinateY)) {
+        if (character.state === 'walk') {
           return
         }
         if (this.floor === 1) {
           if (this.scene.firstFloor.lastClickTile === this) {
+            this.scene.firstFloor.lastClickTile = null
             character.moveTo(this.scene.firstFloor.lastPath, this)
           } else {
-            const path = await this.scene.firstFloor.findPath(this)
+            this.scene.firstFloor.findPath(this)
           }
         }
       })
@@ -99,27 +100,29 @@ export default class Floor extends Phaser.GameObjects.Group {
   }
   findPath (targetTile) {
     this.clearLastPathHint()
-    return new Promise((resolve, reject) => {
-      this.lastClickTile = targetTile
-      const character = this.scene.character
-      this.easyStar.findPath(character.coordinateX, character.coordinateY, targetTile.coordinateX, targetTile.coordinateY, (path) => {
-        if (path === null) {
-          reject('Path not found')
+
+    const character = this.scene.character
+    this.easyStar.findPath(character.coordinateX, character.coordinateY, targetTile.coordinateX, targetTile.coordinateY, (path) => {
+      if (path === null) {
+        console.log('path not found')
+        return
+      }
+      if (path.length === 0) {
+        console.log('same target')
+        return
+      }
+      for (let i = 0; i < path.length; i++) {
+        const { x, y } = path[i]
+        const tile = this.getChildren().find(tile => tile.coordinateX === x && tile.coordinateY === y)
+        if (i === path.length - 1 && (tile.hasOwnProperty('item') || tile.hasOwnProperty('monster'))) {
+          continue
         } else {
-          for (let i = 0; i < path.length; i++) {
-            const { x, y } = path[i]
-            const tile = this.getChildren().find(tile => tile.coordinateX === x && tile.coordinateY === y)
-            if (i === path.length - 1 && (tile.hasOwnProperty('item') || tile.hasOwnProperty('monster'))) {
-              continue
-            } else {
-              tile.setDot()
-            }
-            this.lastPath.push(tile)
-          }
-          this.lastPath[this.lastPath.length - 1].setBorderRec()
-          resolve(this.lastPath)
+          tile.setDot()
         }
-      })
+        this.lastPath.push(tile)
+      }
+      this.lastPath[this.lastPath.length - 1].setBorderRec()
+      this.lastClickTile = targetTile
     })
   }
   clearLastPathHint () {

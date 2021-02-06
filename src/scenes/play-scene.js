@@ -14,11 +14,7 @@ export default class PlayScene extends Scene {
     this.secondFloor = null
     this.wall = null
   }
-  init () {
-  }
-  preload () {
-  }
-  async create () {
+  create () {
     store.dispatch('showNotification', { message: 'GAME START' })
     this.cameras.main.setZoom(0.7)
     const shadow = this.add.image(this.centerX, this.centerY + 900, 'tile-shadow').setOrigin(0.5, 1).setDepth(0.1)
@@ -43,21 +39,7 @@ export default class PlayScene extends Scene {
     this.groove = new Item(this, 'groove', 'wall', { depth: 1000, x: this.centerX + 192 * 2.25, y: this.centerY - 192, column: 5, row: 1, floor: 2 }).setOrigin(0.5, 1)
     this.curtain = new Item(this, 'curtain', 'wall', { depth: 560, x: this.centerX - 192 * 0.8, y: this.centerY - 192 * 1.2, column: 1, row: 2, floor: 2 }).setOrigin(0.5, 1)
     this.pipe = new Item(this, 'pipe', 'wall', { depth: 1000, x: this.centerX + 192 * 1.2, y: this.centerY - 192 * 2 }).setOrigin(0.5, 1)
-    this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3 }).setOrigin(0.5, 1)
-    this.nail.setInteractive().on('pointerdown', () => {
-      if (!store.state.items.includes('ladder')) {
-        return
-      }
-      this.nail.setTexture('rope')
-      this.tweens.add({
-        targets: this.nail,
-        alpha: 0,
-        delay: 500,
-        duration: 2000,
-      })
-      store.dispatch('useItem', { in: 'ladder', out: 'climb' })
-    })
-
+    this.nail = new Item(this, 'nail', 'wall', { depth: 1000, x: this.centerX + 192 * 1.3, y: this.centerY + 192 * 1.3, column: 6, row: 4, floor: 1 }).setOrigin(0.5, 1)
     this.exit = this.add.sprite(this.centerX + 192 * 4, this.centerY + 192 * 1.37, 'openExit').setOrigin(0.5, 1).setDepth(1000).setVisible(false)
     this.createAnim('openExitAnim', 'exit', 'open-exit', 18)
     this.fakeDoor = new Item(this, 'fake-door', 'wall', { depth: 2000, x: this.centerX - 192 * 1.7, y: this.centerY + 192 * 3 }).setOrigin(0.5, 1)

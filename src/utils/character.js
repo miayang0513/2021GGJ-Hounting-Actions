@@ -129,12 +129,42 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.scene.anims.create(config)
   }
 
+  climb () {
+    this.scene.nail.setTexture('rope')
+    this.scene.tweens.add({
+      targets: this.scene.nail,
+      alpha: 0,
+      delay: 500,
+      duration: 2000,
+    })
+    const tile = this.scene.secondFloor.getChildren().find(tile => tile.coordinateX === 5 && tile.coordinateY === 2)
+    this.coordinateX = tile.coordinateX
+    this.coordinateY = tile.coordinateY
+    const { x, y } = this.countPhaserXnY(this.coordinateX - 1, this.coordinateY - 1, 2)
+    this.depth = tile.depth + 300
+    this.state = 'walk'
+    this.playAnim()
+    this.scene.tweens.add({
+      targets: this,
+      x,
+      y,
+      duration: 1000,
+      ease: 'Expo',
+      onComplete: (tween, targets) => {
+        this.state = 'idle'
+        this.playAnim()
+      }
+    })
+  }
   playAnim () {
     this.play(`${this.direction}_${this.state}`)
   }
   placeCharacterOnGround () {
-    const coordinateX = this.coordinateX - 1
-    const coordinateY = this.coordinateY - 1
+    const { x, y } = this.countPhaserXnY(this.coordinateX - 1, this.coordinateY - 1, this.floor)
+    this.setPosition(x, y)
+    this.setDepth(10000)
+  }
+  countPhaserXnY (coordinateX, coordinateY, floor) {
     const tileWidth = 192
     const tileHeight = 96
     const tileWidthHalf = tileWidth / 2
@@ -142,9 +172,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     const tx = (coordinateX - coordinateY) * tileWidthHalf
     const ty = (coordinateX + coordinateY) * tileHeightHalf
     const x = this.centerX + tx
-    const y = this.centerY + ty - (this.floor - 1) * tileHeight * 2
-    const depth = this.centerY + ty
-    this.setPosition(x, y)
-    this.setDepth(10000)
+    const y = this.centerY + ty - (floor - 1) * tileHeight * 2
+    return { x, y }
   }
 }

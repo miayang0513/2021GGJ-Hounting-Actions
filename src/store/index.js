@@ -71,7 +71,16 @@ const actions = {
   useItem (context, inOutTable) {
     const index = context.state.items.findIndex(itemId => itemId === inOutTable.in)
     const itemElement = document.querySelector('.baggage')?.children[index]
-    if (inOutTable.out === 'safe' || inOutTable.out === 'climb') {
+    if (inOutTable.out === 'climb') {
+      console.log('climb')
+      itemElement.dataset.status = 'empty'
+      context.state.items[index] = null
+      itemElement.dataset.name = ''
+      const playScene = game.scene.keys['PlayScene']
+      playScene.character.climb()
+      return
+    }
+    if (inOutTable.out === 'safe') {
       itemElement.dataset.status = 'empty'
       context.state.items[index] = null
       itemElement.dataset.name = ''

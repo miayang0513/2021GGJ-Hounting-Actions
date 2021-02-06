@@ -8,7 +8,6 @@ export default class Monster extends Phaser.GameObjects.Sprite {
 
     this.originPos = { x: x, y: y }
     this.id = 'big-monster'
-    this.objType = 'monster'
 
     this.setTexture('big-monster').setFrame('big_idle.png').setDepth(this.y + 120)
     this.generateAnim('big_walk', 'big_walk', 0, 1, -1)

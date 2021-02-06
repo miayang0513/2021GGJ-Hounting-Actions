@@ -124,6 +124,16 @@
           "out": "reflection"
         }
       ]
+    },
+    {
+      "id": "nail",
+      "name": "nail",
+      "availableItems": [
+        {
+          "in": "ladder",
+          "out": "climb"
+        }
+      ]
     }
   ],
   "portable": [
